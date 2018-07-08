@@ -1,0 +1,34 @@
+{
+  "name": "stc",
+  "version": "1.0.0",
+  "description": "StarTrekCorpora client",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc --declaration",
+    "test": "mocha --reporter spec",
+    "cover": "istanbul cover node_modules/mocha/bin/_mocha test/*.js -- -R spec"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MaximeGir/StarTrekCorporaNPM.git"
+  },
+  "keywords": [
+    "star",
+    "trek",
+    "corpora"
+  ],
+  "author": "Maxime Girard <maxime.g.girard@gmail.com> (http://maximegirard.org)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/MaximeGir/StarTrekCorporaNPM/issues"
+  },
+  "homepage": "https://github.com/MaximeGir/StarTrekCorporaNPM#readme",
+  "devDependencies": {
+    "coveralls": "^3.0.2",
+    "istanbul": "^0.4.5",
+    "mocha": "^5.2.0"
+  },
+  "dependencies": {
+    "config": "^1.30.0"
+  }
+}
