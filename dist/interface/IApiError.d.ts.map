@@ -1,1 +1,0 @@
-{"version":3,"file":"IApiError.d.ts","sourceRoot":"","sources":["../../interface/IApiError.ts"],"names":[],"mappings":"AAAA,MAAM,WAAW,SAAS;IACtB;;OAEG;IACH,IAAI,CAAC,EAAE,MAAM,CAAC;IAEd;;OAEG;IACH,OAAO,CAAC,EAAE,MAAM,CAAC;IAEjB;;OAEG;IACH,MAAM,CAAC,EAAE,MAAM,CAAC;IAEhB;;OAEG;IACH,OAAO,CAAC,EAAE,KAAK,CAAC,SAAS,CAAC,CAAC;CAC9B"}

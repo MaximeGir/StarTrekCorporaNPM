@@ -4,9 +4,11 @@
   "description": "StarTrekCorpora client",
   "main": "dist/index.js",
   "scripts": {
+    "prebuild": "rimraf dist",
     "build": "tsc --declaration",
-    "test": "mocha --reporter spec",
-    "cover": "istanbul cover node_modules/mocha/bin/_mocha test/*.js -- -R spec"
+    "postbuild": "./node_modules/.bin/mocha --compilers ts:ts-node/register ./test/*.test.ts",
+    "test": "./node_modules/.bin/mocha --compilers ts:ts-node/register ./test/*.test.ts",
+    "postinstall": "./node_modules/.bin/mocha --compilers ts:ts-node/register ./test/*.test.ts"
   },
   "repository": {
     "type": "git",
@@ -24,13 +26,20 @@
   },
   "homepage": "https://github.com/MaximeGir/StarTrekCorporaNPM#readme",
   "devDependencies": {
+    "@types/chai": "^4.1.4",
+    "@types/mocha": "^5.2.4",
     "chai": "^4.1.2",
     "coveralls": "^3.0.2",
     "istanbul": "^0.4.5",
-    "mocha": "^5.2.0"
+    "mocha": "^5.2.0",
+    "rimraf": "^2.6.2",
+    "source-map-support": "^0.5.6",
+    "ts-node": "^7.0.0",
+    "tslint": "^5.10.0"
   },
   "dependencies": {
     "@types/config": "0.0.34",
-    "config": "^1.30.0"
+    "config": "^1.30.0",
+    "typescript": "^2.9.2"
   }
 }

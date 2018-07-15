@@ -18,4 +18,14 @@ export interface IApiError {
      * Including sub-errors
      */
     details?: Array<IApiError>;
+
+    /**
+     * Add a detail
+     */
+    addDetail(detail: IApiError): void;
+
+    /**
+     * Add details
+     */
+    addDetails(details: Array<IApiError>): void;
 }

@@ -1,1 +1,0 @@
-{"version":3,"file":"IStarTrekCorpora.d.ts","sourceRoot":"","sources":["../../interface/IStarTrekCorpora.ts"],"names":[],"mappings":"AAAA,OAAO,EAAC,UAAU,EAAC,MAAM,cAAc,CAAC;AACxC,OAAO,EAAC,OAAO,EAAC,MAAM,WAAW,CAAC;AAElC,MAAM,WAAW,gBAAgB;IAE7B;;;;;;OAMG;IACH,OAAO,CAAC,OAAO,EAAE,MAAM,GAAG,MAAM,EAAE,MAAM,CAAC,EAAE,MAAM,GAAG,OAAO,CAAC,UAAU,CAAC,OAAO,CAAC,CAAC,CAAC;CACpF"}
