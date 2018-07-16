@@ -14,7 +14,7 @@ export interface IApiResult<T> {
     /**
      * UTC Time at which the request took place
      */
-    timestamps?: string;
+    timestamp?: string;
 
     /**
      * List all errors that occured, if any

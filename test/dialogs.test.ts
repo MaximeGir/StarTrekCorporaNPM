@@ -17,7 +17,7 @@ before(async () => {
 
 describe('Connect to the api when instanciated', () => {
     it("should be configured", async () => {
-        nock('http://localhost:5000', {"allowUnmocked": false})
+        nock('http://localhost:5000', {"allowUnmocked": true})
             .get('/api/v1')
             .reply(200);
 

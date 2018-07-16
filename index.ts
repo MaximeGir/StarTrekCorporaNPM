@@ -7,6 +7,8 @@ import {ErrorCode} from "./error/ErrorCode";
 import {ErrorMessage} from "./error/ErrorMessage";
 import * as configs from "./config/configs";
 import * as request from "request-promise-native";
+import {IPlanet} from "./interface/IPlanet";
+import uuid = require("uuid");
 
 export class StarTrek implements IStarTrekCorpora {
     private api_url;
@@ -28,6 +30,25 @@ export class StarTrek implements IStarTrekCorpora {
 
         let response = await request.get(options);
         return response.statusCode === 200;
+    }
+
+    public async planets(): Promise<IApiResult<IPlanet>> {
+        let options = {
+            uri: configs.configs.api_url + "/planets",
+            resolveWithFullResponse: false,
+            json: true
+        };
+
+        let response: Array<IPlanet> = await request.get(options);
+
+        let apiResult: IApiResult<IPlanet> = {
+            id: uuid(),
+            data: response,
+            timestamp: (new Date()).toISOString(),
+            errors: null
+        };
+
+        return apiResult;
     }
 
     public async dialogs(serieID: string | number, charID?: string | null): Promise<IApiResult<IDialog>> {
