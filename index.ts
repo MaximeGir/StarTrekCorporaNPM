@@ -5,8 +5,31 @@ import {NotFound as NotFoundError} from "./error/http/NotFound";
 import {NotIMplementedYet as NotImplementedYetError} from "./error/api/NotImplementedYet";
 import {ErrorCode} from "./error/ErrorCode";
 import {ErrorMessage} from "./error/ErrorMessage";
+import * as configs from "./config/configs";
+import * as request from "request-promise-native";
 
 export class StarTrek implements IStarTrekCorpora {
+    private api_url;
+
+    constructor() {
+        this.configure(configs.configs.api_url);
+    }
+
+    private async configure(api_url: string): Promise<void> {
+        this.api_url = api_url;
+    }
+
+    public async isConfigured(): Promise<boolean> {
+
+        const options = {
+            uri: configs.configs.api_url,
+            resolveWithFullResponse: true
+        };
+
+        let response = await request.get(options);
+        return response.statusCode === 200;
+    }
+
     public async dialogs(serieID: string | number, charID?: string | null): Promise<IApiResult<IDialog>> {
         try {
             if (serieID) {

@@ -1,19 +1,29 @@
 'use strict';
 
 import {expect} from 'chai';
-import {StarTrek as stc, StarTrek} from "../index";
+import {StarTrek} from "../index";
 import * as configs from "../config/configs";
 import {ErrorCode} from "../error/ErrorCode";
 import {ErrorMessage} from "../error/ErrorMessage";
+import nock from 'nock';
 
 let instance: StarTrek;
 
 before(async () => {
 
-    instance = new stc();
+    instance = new StarTrek();
 
 });
 
+describe('Connect to the api when instanciated', () => {
+    it("should be configured", async () => {
+        nock('http://localhost:5000', {"allowUnmocked": false})
+            .get('/api/v1')
+            .reply(200);
+
+        expect(await instance.isConfigured()).to.equal(true);
+    });
+});
 
 describe('dialogs function tests', () => {
     it('should throw not found error', async () => {
@@ -62,9 +72,13 @@ describe("configuration tests", () => {
 
     it("should have all the api attributes", () => {
         expect(configs.configs.api).to.deep.include({version: "1.0.0"});
-        expect(configs.configs.api).to.deep.include({host: "startrekcorpora.com"});
+        expect(configs.configs.api).to.deep.include({host: "localhost"});
         expect(configs.configs.api).to.deep.include({port: 5000});
         expect(configs.configs.api).to.deep.include({scheme: "http"});
         expect(configs.configs.api).to.deep.include({path: "/api/v1"});
+    });
+
+    it("should build proper api-url", () => {
+        expect(configs.configs.api_url).to.equal("http://localhost:5000/api/v1");
     });
 });

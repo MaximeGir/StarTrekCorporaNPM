@@ -6,6 +6,7 @@ export class Configuration {
     private readonly apiPort: string;
     private readonly apiPath: string;
     private readonly apiScheme: string;
+    private readonly apiUrl: string;
 
     constructor() {
         this.apiVersion = <string>config.get('api.version');
@@ -23,6 +24,10 @@ export class Configuration {
             "path": this.apiPath,
             "scheme": this.apiScheme
         }
+    }
+
+    get api_url(): string {
+        return this.apiScheme + "://" + this.apiHost + ":" + this.apiPort + this.apiPath;
     }
 }
 

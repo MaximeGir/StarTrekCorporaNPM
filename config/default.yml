@@ -1,7 +1,7 @@
 
 api:
   version: 1.0.0
-  host: startrekcorpora.com
+  host: localhost
   port: 5000
   path: /api/v1
   scheme: http

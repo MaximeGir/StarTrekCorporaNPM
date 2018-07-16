@@ -6,9 +6,9 @@
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "tsc --declaration",
-    "postbuild": "./node_modules/.bin/mocha --compilers ts:ts-node/register ./test/*.test.ts",
-    "test": "./node_modules/.bin/mocha --compilers ts:ts-node/register ./test/*.test.ts",
-    "postinstall": "./node_modules/.bin/mocha --compilers ts:ts-node/register ./test/*.test.ts"
+    "postbuild": "./node_modules/.bin/mocha --timeouts=15000 --compilers ts:ts-node/register ./test/*.test.ts",
+    "test": "./node_modules/.bin/mocha --timeouts=15000 --compilers ts:ts-node/register ./test/*.test.ts",
+    "postinstall": "./node_modules/.bin/mocha --timeouts=15000 --compilers ts:ts-node/register ./test/*.test.ts"
   },
   "repository": {
     "type": "git",
@@ -28,10 +28,12 @@
   "devDependencies": {
     "@types/chai": "^4.1.4",
     "@types/mocha": "^5.2.4",
+    "@types/nock": "^9.3.0",
     "chai": "^4.1.2",
     "coveralls": "^3.0.2",
     "istanbul": "^0.4.5",
     "mocha": "^5.2.0",
+    "nock": "^9.4.2",
     "rimraf": "^2.6.2",
     "source-map-support": "^0.5.6",
     "ts-node": "^7.0.0",
@@ -40,6 +42,8 @@
   "dependencies": {
     "@types/config": "0.0.34",
     "config": "^1.30.0",
+    "request": "^2.87.0",
+    "request-promise-native": "^1.0.5",
     "typescript": "^2.9.2"
   }
 }
