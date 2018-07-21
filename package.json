@@ -8,7 +8,8 @@
     "build": "tsc --declaration",
     "postbuild": "./node_modules/.bin/mocha --timeouts=15000 --compilers ts:ts-node/register ./test/*.test.ts",
     "test": "./node_modules/.bin/mocha --timeouts=15000 --compilers ts:ts-node/register ./test/*.test.ts",
-    "postinstall": "./node_modules/.bin/mocha --timeouts=15000 --compilers ts:ts-node/register ./test/*.test.ts"
+    "postinstall": "./node_modules/.bin/mocha --timeouts=15000 --compilers ts:ts-node/register ./test/*.test.ts",
+    "clean": "rimraf dist"
   },
   "repository": {
     "type": "git",

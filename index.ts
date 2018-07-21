@@ -1,3 +1,4 @@
+import { IMeasurement } from './interface/IMeasurement';
 import * as request from 'request-promise-native';
 import uuid = require('uuid');
 
@@ -63,6 +64,25 @@ export class StarTrek implements IStarTrekCorpora {
         let response: Array<IPersona> = await request.get(options);
 
         let apiResult: IApiResult<IPersona> = {
+            id: uuid(),
+            data: response,
+            timestamp: (new Date()).toISOString(),
+            errors: null
+        };
+
+        return apiResult;
+    }
+
+    public async measurements(): Promise<IApiResult<IMeasurement>> {
+        let options = {
+            uri: configs.configs.api_url + "/measurements",
+            resolveWithFullResponse: false,
+            json: true
+        };
+
+        let response: Array<IMeasurement> = await request.get(options);
+
+        let apiResult: IApiResult<IMeasurement> = {
             id: uuid(),
             data: response,
             timestamp: (new Date()).toISOString(),

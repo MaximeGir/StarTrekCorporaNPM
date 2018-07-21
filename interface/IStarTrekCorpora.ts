@@ -2,6 +2,7 @@ import { IApiResult } from "./IApiResult";
 import { IDialog } from "./IDialog";
 import { IPlanet } from "./IPlanet";
 import { IPersona } from "./IPersona";
+import { IMeasurement } from "./IMeasurement";
 
 export interface IStarTrekCorpora {
 
@@ -25,4 +26,10 @@ export interface IStarTrekCorpora {
      * @return { Promise<IApiResult<IPersona>> }
      */
     personas(): Promise<IApiResult<IPersona>>;
+
+    /**
+     * Get all measurements from the star trek universe
+     * @return { Promise<IApiResult<IMeasurement>> }
+     */
+    measurements(): Promise<IApiResult<IMeasurement>>;
 }
