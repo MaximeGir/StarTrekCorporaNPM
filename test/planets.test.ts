@@ -1,13 +1,13 @@
-'use strict';
-
-import {StarTrek} from "../index";
-import {assert, expect} from "chai";
+import { assert, expect } from 'chai';
 import nock from 'nock';
+
+import { StarTrek } from '..';
 
 let instance: StarTrek;
 let planet_nock;
 
 before(async () => {
+
     planet_nock = nock('http://localhost:5000')
         .persist()
         .get('/api/v1/planets')
@@ -43,10 +43,13 @@ before(async () => {
 });
 
 after(async () => {
+
     nock.cleanAll();
+
 });
 
 describe("Planet test", () => {
+
     it("should have IApiResult format", async () => {
 
         let planets = await instance.planets();
@@ -55,14 +58,18 @@ describe("Planet test", () => {
         expect(planets).to.haveOwnProperty("timestamp");
         expect(planets).to.haveOwnProperty("errors");
         expect(planets).to.haveOwnProperty("id");
+
     });
 
     it("should result be in json format", async () => {
+
         let planets = await instance.planets();
+
         assert.typeOf(planets.data, "array");
         assert.isTrue(planets.data.length > 0);
         assert.isObject(planets.data[0]);
         assert.isTrue(planet_nock.isDone())
+
     });
 
 });

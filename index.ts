@@ -1,14 +1,16 @@
-import {IStarTrekCorpora} from "./interface/IStarTrekCorpora";
-import {IDialog} from "./interface/IDialog";
-import {IApiResult} from "./interface/IApiResult";
-import {NotFound as NotFoundError} from "./error/http/NotFound";
-import {NotIMplementedYet as NotImplementedYetError} from "./error/api/NotImplementedYet";
-import {ErrorCode} from "./error/ErrorCode";
-import {ErrorMessage} from "./error/ErrorMessage";
-import * as configs from "./config/configs";
-import * as request from "request-promise-native";
-import {IPlanet} from "./interface/IPlanet";
-import uuid = require("uuid");
+import * as request from 'request-promise-native';
+import uuid = require('uuid');
+
+import * as configs from './config/configs';
+import { NotIMplementedYet as NotImplementedYetError } from './error/api/NotImplementedYet';
+import { ErrorCode } from './error/ErrorCode';
+import { ErrorMessage } from './error/ErrorMessage';
+import { NotFound as NotFoundError } from './error/http/NotFound';
+import { IApiResult } from './interface/IApiResult';
+import { IDialog } from './interface/IDialog';
+import { IPersona } from './interface/IPersona';
+import { IPlanet } from './interface/IPlanet';
+import { IStarTrekCorpora } from './interface/IStarTrekCorpora';
 
 export class StarTrek implements IStarTrekCorpora {
     private api_url;
@@ -42,6 +44,25 @@ export class StarTrek implements IStarTrekCorpora {
         let response: Array<IPlanet> = await request.get(options);
 
         let apiResult: IApiResult<IPlanet> = {
+            id: uuid(),
+            data: response,
+            timestamp: (new Date()).toISOString(),
+            errors: null
+        };
+
+        return apiResult;
+    }
+
+    public async personas(): Promise<IApiResult<IPersona>> {
+        let options = {
+            uri: configs.configs.api_url + "/personas",
+            resolveWithFullResponse: false,
+            json: true
+        };
+
+        let response: Array<IPersona> = await request.get(options);
+
+        let apiResult: IApiResult<IPersona> = {
             id: uuid(),
             data: response,
             timestamp: (new Date()).toISOString(),
