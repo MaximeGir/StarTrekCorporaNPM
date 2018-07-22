@@ -1,3 +1,6 @@
+import { IEpisode } from './interface/IEpisode';
+import { ISerie } from './interface/ISerie';
+import { IAlien } from './interface/IAlien';
 import { IMeasurement } from './interface/IMeasurement';
 import * as request from 'request-promise-native';
 import uuid = require('uuid');
@@ -83,6 +86,65 @@ export class StarTrek implements IStarTrekCorpora {
         let response: Array<IMeasurement> = await request.get(options);
 
         let apiResult: IApiResult<IMeasurement> = {
+            id: uuid(),
+            data: response,
+            timestamp: (new Date()).toISOString(),
+            errors: null
+        };
+
+        return apiResult;
+    }
+
+    public async aliens(): Promise<IApiResult<IAlien>> {
+        let options = {
+            uri: configs.configs.api_url + "/aliens",
+            resolveWithFullResponse: false,
+            json: true
+        };
+
+        let response: Array<IAlien> = await request.get(options);
+
+        let apiResult: IApiResult<IAlien> = {
+            id: uuid(),
+            data: response,
+            timestamp: (new Date()).toISOString(),
+            errors: null
+        };
+
+        return apiResult;
+    }
+
+    public async episodes(serie_id: number | string): Promise<IApiResult<IEpisode>> {
+        let options = {
+            uri: configs.configs.api_url + "/" + serie_id + "/episodes",
+            resolveWithFullResponse: false,
+            json: true
+        };
+
+        let response: Array<IEpisode> = await request.get(options);
+
+        let apiResult: IApiResult<IEpisode> = {
+            id: uuid(),
+            data: response,
+            timestamp: (new Date()).toISOString(),
+            errors: null
+        };
+
+        return apiResult;
+    }
+
+    public async series(serie?: number | string): Promise<IApiResult<ISerie>> {
+        let computed_uri: string = serie ? configs.configs.api_url + "/series" + "/" + serie : configs.configs.api_url + "/series";
+
+        let options = {
+            uri: computed_uri,
+            resolveWithFullResponse: false,
+            json: true
+        };
+
+        let response: Array<ISerie> = await request.get(options);
+
+        let apiResult: IApiResult<ISerie> = {
             id: uuid(),
             data: response,
             timestamp: (new Date()).toISOString(),

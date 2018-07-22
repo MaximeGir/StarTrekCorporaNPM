@@ -1,8 +1,11 @@
-import { IApiResult } from "./IApiResult";
-import { IDialog } from "./IDialog";
-import { IPlanet } from "./IPlanet";
-import { IPersona } from "./IPersona";
-import { IMeasurement } from "./IMeasurement";
+import { IAlien } from './IAlien';
+import { IApiResult } from './IApiResult';
+import { IDialog } from './IDialog';
+import { IEpisode } from './IEpisode';
+import { IMeasurement } from './IMeasurement';
+import { IPersona } from './IPersona';
+import { IPlanet } from './IPlanet';
+import { ISerie } from './ISerie';
 
 export interface IStarTrekCorpora {
 
@@ -32,4 +35,25 @@ export interface IStarTrekCorpora {
      * @return { Promise<IApiResult<IMeasurement>> }
      */
     measurements(): Promise<IApiResult<IMeasurement>>;
+
+    /**
+     * Get all aliens from the star trek universe
+     * @return { Promise<IApiResult<IAlien>> }
+     */
+    aliens(): Promise<IApiResult<IAlien>>;
+
+    /**
+     * Get all series
+     * @return { Promise<IApiResult<ISerie>> }
+     */
+    series(serie?: number | string): Promise<IApiResult<ISerie>>;
+
+    /**
+     * Get all episodes object from particular serie
+     * @param serie_id either the textual acronym or the number id of the serie you're looking into
+     * "VOY","ENT","TNG","TOS","TAS","DIS" either in caps or tiny or 1,2,3,4,5,6 as number
+     * @return { Promise<IApiResult<IEpisode>> }
+     */
+    episodes(serie_id: number | string): Promise<IApiResult<IEpisode>>;
+
 }
