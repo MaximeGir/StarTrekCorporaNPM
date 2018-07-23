@@ -1,4 +1,4 @@
-import {IApiError} from "./IApiError";
+import { IApiError } from "./IApiError";
 
 export interface IApiResult<T> {
     /**
@@ -19,5 +19,5 @@ export interface IApiResult<T> {
     /**
      * List all errors that occured, if any
      */
-    errors?: IApiError;
+    errors?: Array<IApiError>;
 }

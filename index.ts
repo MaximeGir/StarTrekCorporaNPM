@@ -1,3 +1,5 @@
+import { ServiceNotAvailable as ServiceNotAvailableError } from './error/http/ServiceUnavailable';
+import { IApiError } from './interface/IApiError';
 import { IEpisode } from './interface/IEpisode';
 import { ISerie } from './interface/ISerie';
 import { IAlien } from './interface/IAlien';
@@ -24,18 +26,31 @@ export class StarTrek implements IStarTrekCorpora {
     }
 
     private async configure(api_url: string): Promise<void> {
-        this.api_url = api_url;
+        try {
+            this.api_url = api_url;
+            await this.isConfigured();
+        } catch (err) {
+            console.error("Could not connect to Star Trek Corpora\n");
+            console.error(err);
+        }
     }
 
     public async isConfigured(): Promise<boolean> {
+        try {
 
-        const options = {
-            uri: configs.configs.api_url,
-            resolveWithFullResponse: true
-        };
+            const options = {
+                uri: configs.configs.api_url,
+                resolveWithFullResponse: true
+            };
 
-        let response = await request.get(options);
-        return response.statusCode === 200;
+            let response = await request.get(options);
+            return response.statusCode === 200;
+
+        } catch (e) {
+
+            throw new ServiceNotAvailableError(ErrorCode.SERVICE_NOT_AVAILABLE, ErrorMessage.SERVICE_NOT_AVAILABLE, "isConfigured", []);
+
+        }
     }
 
     public async planets(): Promise<IApiResult<IPlanet>> {
@@ -115,22 +130,30 @@ export class StarTrek implements IStarTrekCorpora {
     }
 
     public async episodes(serie_id: number | string): Promise<IApiResult<IEpisode>> {
-        let options = {
-            uri: configs.configs.api_url + "/" + serie_id + "/episodes",
-            resolveWithFullResponse: false,
-            json: true
-        };
+        try {
 
-        let response: Array<IEpisode> = await request.get(options);
+            let options = {
+                uri: configs.configs.api_url + "/" + serie_id + "/episodes",
+                resolveWithFullResponse: false,
+                json: true
+            };
 
-        let apiResult: IApiResult<IEpisode> = {
-            id: uuid(),
-            data: response,
-            timestamp: (new Date()).toISOString(),
-            errors: null
-        };
+            let apiResult: IApiResult<IEpisode> = {
+                id: uuid(),
+                data: null,
+                timestamp: (new Date()).toISOString(),
+                errors: null
+            };
 
-        return apiResult;
+            let response: Array<IEpisode> = await request.get(options);
+
+            apiResult.data = response;
+            return apiResult;
+
+        } catch (error) {
+            console.log("ERROR! = " + error);
+            throw error;
+        }
     }
 
     public async series(serie?: number | string): Promise<IApiResult<ISerie>> {
