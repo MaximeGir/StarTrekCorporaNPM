@@ -1,3 +1,4 @@
+import { IRank } from './IRank';
 import { ISpaceShip } from './ISpaceShip';
 import { IAlien } from './IAlien';
 import { IApiResult } from './IApiResult';
@@ -15,6 +16,7 @@ export interface IStarTrekCorpora {
      * @return { Promise<IApiResult<ISpaceShip>> }
      */
     spaceships(): Promise<IApiResult<ISpaceShip>>;
+
     /**
      * Get dialogs from a particular serie, for an (optional) character
      * @param {string | number} serieID
@@ -61,5 +63,12 @@ export interface IStarTrekCorpora {
      * @return { Promise<IApiResult<IEpisode>> }
      */
     episodes(serie_id: number | string): Promise<IApiResult<IEpisode>>;
+
+    /**
+     * Get ranks
+     * @return { Promise<IApiResult<IRank>>}
+     */
+    ranks(): Promise<IApiResult<IRank>>;
+
 
 }

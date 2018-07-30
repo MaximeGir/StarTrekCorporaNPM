@@ -1,4 +1,5 @@
-import { expect } from 'chai';
+import { IDialog } from '../interface/IDialog';
+import { expect, assert } from 'chai';
 import nock from 'nock';
 
 import { StarTrek } from '..';
@@ -7,11 +8,44 @@ import { ErrorMessage } from '../error/ErrorMessage';
 
 
 let instance: StarTrek;
+let voyager_mock: any;
 
 before(async () => {
 
     instance = new StarTrek();
-
+    voyager_mock = nock('http://localhost:5000', { "allowUnmocked": false })
+        .persist()
+        .get('/api/v1/dialogs/voy')
+        .reply(200, [{
+            "character_id": 14,
+            "didascalis": {
+                "didascalis": []
+            },
+            "episode_id": 548,
+            "episode_title": "caretaker",
+            "id": 197828,
+            "room": {
+                "rooms": []
+            },
+            "serie_id": 4,
+            "speaker_name": "Chakotay",
+            "text": " Be creative!\n"
+        },
+        {
+            "character_id": 108,
+            "didascalis": {
+                "didascalis": []
+            },
+            "episode_id": 548,
+            "episode_title": "caretaker",
+            "id": 197915,
+            "room": {
+                "rooms": []
+            },
+            "serie_id": 4,
+            "speaker_name": "Quark",
+            "text": " You have one, I presume?\n"
+        }]);
 });
 
 describe('Connect to the api when instanciated', () => {
@@ -70,6 +104,34 @@ describe('dialogs function tests', () => {
 
         expect(hasThrown).to.equal(true);
 
+    });
+
+    it("should returns voyager dialogs", async () => {
+        let res = await instance.dialogs("voy");
+        assert.isNotNull(res);
+        assert.isArray(res.data);
+        assert.isTrue(res.data.length > 0);
+        assert.isNull(res.errors);
+
+        let one_dialog: IDialog = res.data[0];
+        assert.isDefined(one_dialog);
+        assert.deepEqual(one_dialog, {
+            character_id: 14,
+            didascalis: {
+                didascalis: []
+            },
+            episode_id: 548,
+            episode_title: "caretaker",
+            id: 197828,
+            room: {
+                rooms: []
+            },
+            serie_id: 4,
+            speaker_name: "Chakotay",
+            text: " Be creative!\n"
+        });
+
+        assert.isTrue(voyager_mock.isDone());
     });
 
 });

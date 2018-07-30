@@ -1,3 +1,11 @@
 export interface IDialog {
-    // todo map to dialog json
+    id: number;
+    episode_id: number;
+    serie_id: number;
+    character_id: number;
+    didascalis: any;
+    episode_title: string;
+    room: any;
+    speaker_name: string;
+    text: string;
 }

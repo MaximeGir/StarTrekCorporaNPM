@@ -1,3 +1,4 @@
+import { IRank } from './interface/IRank';
 import * as request from 'request-promise-native';
 import uuid = require('uuid');
 
@@ -51,6 +52,25 @@ export class StarTrek implements IStarTrekCorpora {
             throw new ServiceNotAvailableError(ErrorCode.SERVICE_NOT_AVAILABLE, ErrorMessage.SERVICE_NOT_AVAILABLE, "isConfigured", []);
 
         }
+    }
+
+    public async ranks(): Promise<IApiResult<IRank>> {
+        let options = {
+            uri: configs.configs.api_url + "/ranks",
+            resolveWithFullResponse: false,
+            json: true
+        };
+
+        let response: Array<IRank> = await request.get(options);
+
+        let apiResult: IApiResult<IRank> = {
+            id: uuid(),
+            data: response,
+            timestamp: (new Date()).toISOString(),
+            errors: null
+        };
+
+        return apiResult;
     }
 
     public async spaceships(): Promise<IApiResult<ISpaceShip>> {
@@ -223,17 +243,34 @@ export class StarTrek implements IStarTrekCorpora {
 
 
     private async charDialogs(serieID: string | number, charID: string | null): Promise<IApiResult<IDialog>> {
-
         throw new NotImplementedYetError(ErrorCode.NOT_IMPLEMENTED_YET, ErrorMessage.NOT_IMPLEMENTED_YET, "dialogs", []);
-
     }
 
 
     private async serieDialogs(serieID: string | number): Promise<IApiResult<IDialog>> {
+        try {
 
-        throw new NotImplementedYetError(ErrorCode.NOT_IMPLEMENTED_YET, ErrorMessage.NOT_IMPLEMENTED_YET, "dialogs", []);
+            let options = {
+                uri: configs.configs.api_url + "/dialogs/" + serieID,
+                resolveWithFullResponse: false,
+                json: true
+            };
 
+            let apiResult: IApiResult<IDialog> = {
+                id: uuid(),
+                data: null,
+                timestamp: (new Date()).toISOString(),
+                errors: null
+            };
+
+            let response: Array<IDialog> = await request.get(options);
+
+            apiResult.data = response;
+            return apiResult;
+
+        } catch (error) {
+            console.log("ERROR! = " + error);
+            throw error;
+        }
     }
 }
-
-
