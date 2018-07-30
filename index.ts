@@ -1,9 +1,3 @@
-import { ServiceNotAvailable as ServiceNotAvailableError } from './error/http/ServiceUnavailable';
-import { IApiError } from './interface/IApiError';
-import { IEpisode } from './interface/IEpisode';
-import { ISerie } from './interface/ISerie';
-import { IAlien } from './interface/IAlien';
-import { IMeasurement } from './interface/IMeasurement';
 import * as request from 'request-promise-native';
 import uuid = require('uuid');
 
@@ -12,10 +6,16 @@ import { NotIMplementedYet as NotImplementedYetError } from './error/api/NotImpl
 import { ErrorCode } from './error/ErrorCode';
 import { ErrorMessage } from './error/ErrorMessage';
 import { NotFound as NotFoundError } from './error/http/NotFound';
+import { ServiceNotAvailable as ServiceNotAvailableError } from './error/http/ServiceUnavailable';
+import { IAlien } from './interface/IAlien';
 import { IApiResult } from './interface/IApiResult';
 import { IDialog } from './interface/IDialog';
+import { IEpisode } from './interface/IEpisode';
+import { IMeasurement } from './interface/IMeasurement';
 import { IPersona } from './interface/IPersona';
 import { IPlanet } from './interface/IPlanet';
+import { ISerie } from './interface/ISerie';
+import { ISpaceShip } from './interface/ISpaceShip';
 import { IStarTrekCorpora } from './interface/IStarTrekCorpora';
 
 export class StarTrek implements IStarTrekCorpora {
@@ -51,6 +51,26 @@ export class StarTrek implements IStarTrekCorpora {
             throw new ServiceNotAvailableError(ErrorCode.SERVICE_NOT_AVAILABLE, ErrorMessage.SERVICE_NOT_AVAILABLE, "isConfigured", []);
 
         }
+    }
+
+    public async spaceships(): Promise<IApiResult<ISpaceShip>> {
+        let options = {
+            uri: configs.configs.api_url + "/spaceships",
+            resolveWithFullResponse: false,
+            json: true
+        };
+
+        let response: Array<ISpaceShip> = await request.get(options);
+
+        let apiResult: IApiResult<ISpaceShip> = {
+            id: uuid(),
+            data: response,
+            timestamp: (new Date()).toISOString(),
+            errors: null
+        };
+
+        return apiResult;
+
     }
 
     public async planets(): Promise<IApiResult<IPlanet>> {
