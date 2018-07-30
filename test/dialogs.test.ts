@@ -57,7 +57,7 @@ describe('dialogs function tests', () => {
 
         try {
 
-            await instance.dialogs("VOY", "JANEWAY");
+            let error = await instance.dialogs("VOY", "JANEWAY");
 
         } catch (error) {
 

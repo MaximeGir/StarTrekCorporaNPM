@@ -1,3 +1,4 @@
+import { ISpaceShip } from './ISpaceShip';
 import { IAlien } from './IAlien';
 import { IApiResult } from './IApiResult';
 import { IDialog } from './IDialog';
@@ -9,6 +10,11 @@ import { ISerie } from './ISerie';
 
 export interface IStarTrekCorpora {
 
+    /**
+     * Get Spaceships, including shuttles
+     * @return { Promise<IApiResult<ISpaceShip>> }
+     */
+    spaceships(): Promise<IApiResult<ISpaceShip>>;
     /**
      * Get dialogs from a particular serie, for an (optional) character
      * @param {string | number} serieID
