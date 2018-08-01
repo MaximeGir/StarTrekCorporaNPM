@@ -13,7 +13,7 @@ let voyager_mock: any;
 before(async () => {
 
     instance = new StarTrek();
-    voyager_mock = nock('http://localhost:5000', { "allowUnmocked": false })
+    voyager_mock = nock('http://startrekcorpora.com:5000', { "allowUnmocked": false })
         .persist()
         .get('/api/v1/dialogs/voy')
         .reply(200, [{
@@ -52,7 +52,7 @@ describe('Connect to the api when instanciated', () => {
 
     it("should be configured", async () => {
 
-        nock('http://localhost:5000', { "allowUnmocked": true })
+        nock('http://startrekcorpora.com:5000', { "allowUnmocked": true })
             .get('/api/v1')
             .reply(200);
 

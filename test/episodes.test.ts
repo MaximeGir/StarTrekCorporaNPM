@@ -1,3 +1,4 @@
+import { configs } from './../config/configs';
 import { assert, expect } from 'chai';
 import { sample } from 'lodash';
 import nock from 'nock';
@@ -14,7 +15,7 @@ before(async () => {
 
     instance = new StarTrek();
 
-    episodes_mock = nock('http://localhost:5000')
+    episodes_mock = nock(configs.api_url)
         .persist()
         .get('/api/v1/' + randomizedSerieId + "/episodes")
         .reply(200, [

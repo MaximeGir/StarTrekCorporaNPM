@@ -1,3 +1,4 @@
+import { configs } from './../config/configs';
 import { assert, expect } from 'chai';
 import { sample } from 'lodash';
 import nock from 'nock';
@@ -12,7 +13,7 @@ before(async () => {
 
     instance = new StarTrek();
 
-    series_with_id_mock = nock('http://localhost:5000')
+    series_with_id_mock = nock(configs.api_url)
         .persist()
         .filteringPath(function (path) {
             return '/api/v1/series/';
@@ -28,7 +29,7 @@ before(async () => {
             }
         ]);
 
-    series_mock = nock('http://localhost:5000')
+    series_mock = nock(configs.api_url)
         .persist()
         .get('/api/v1/series')
         .reply(200, [

@@ -1,3 +1,4 @@
+import { configs } from './../config/configs';
 import { expect, assert } from 'chai';
 import { StarTrek } from './../index';
 import nock from 'nock';
@@ -9,9 +10,9 @@ before(async () => {
 
     instance = new StarTrek();
 
-    ranks_mock = nock('http://localhost:5000')
-        .persist()
+    ranks_mock = nock(configs.api_url)
         .get('/api/v1/ranks')
+        .twice()
         .reply(200, [{
             "id": 1,
             "name": "Chief of Security"

@@ -1,3 +1,4 @@
+import { configs } from './../config/configs';
 import { assert, expect } from 'chai';
 import nock from 'nock';
 
@@ -8,7 +9,7 @@ let planet_nock;
 
 before(async () => {
 
-    planet_nock = nock('http://localhost:5000')
+    planet_nock = nock(configs.api_url)
         .persist()
         .get('/api/v1/planets')
         .reply(200, [

@@ -40,7 +40,7 @@ export class StarTrek implements IStarTrekCorpora {
         try {
 
             const options = {
-                uri: configs.configs.api_url,
+                uri: configs.configs.api_url + configs.configs.api.path,
                 resolveWithFullResponse: true
             };
 
@@ -56,7 +56,7 @@ export class StarTrek implements IStarTrekCorpora {
 
     public async ranks(): Promise<IApiResult<IRank>> {
         let options = {
-            uri: configs.configs.api_url + "/ranks",
+            uri: configs.configs.api_url + configs.configs.api.path + "/ranks",
             resolveWithFullResponse: false,
             json: true
         };
@@ -75,7 +75,7 @@ export class StarTrek implements IStarTrekCorpora {
 
     public async spaceships(): Promise<IApiResult<ISpaceShip>> {
         let options = {
-            uri: configs.configs.api_url + "/spaceships",
+            uri: configs.configs.api_url + configs.configs.api.path + "/spaceships",
             resolveWithFullResponse: false,
             json: true
         };
@@ -95,7 +95,7 @@ export class StarTrek implements IStarTrekCorpora {
 
     public async planets(): Promise<IApiResult<IPlanet>> {
         let options = {
-            uri: configs.configs.api_url + "/planets",
+            uri: configs.configs.api_url + configs.configs.api.path + "/planets",
             resolveWithFullResponse: false,
             json: true
         };
@@ -114,7 +114,7 @@ export class StarTrek implements IStarTrekCorpora {
 
     public async personas(): Promise<IApiResult<IPersona>> {
         let options = {
-            uri: configs.configs.api_url + "/personas",
+            uri: configs.configs.api_url + configs.configs.api.path + "/personas",
             resolveWithFullResponse: false,
             json: true
         };
@@ -133,7 +133,7 @@ export class StarTrek implements IStarTrekCorpora {
 
     public async measurements(): Promise<IApiResult<IMeasurement>> {
         let options = {
-            uri: configs.configs.api_url + "/measurements",
+            uri: configs.configs.api_url + configs.configs.api.path + "/measurements",
             resolveWithFullResponse: false,
             json: true
         };
@@ -152,7 +152,7 @@ export class StarTrek implements IStarTrekCorpora {
 
     public async aliens(): Promise<IApiResult<IAlien>> {
         let options = {
-            uri: configs.configs.api_url + "/aliens",
+            uri: configs.configs.api_url + configs.configs.api.path + "/aliens",
             resolveWithFullResponse: false,
             json: true
         };
@@ -173,7 +173,7 @@ export class StarTrek implements IStarTrekCorpora {
         try {
 
             let options = {
-                uri: configs.configs.api_url + "/" + serie_id + "/episodes",
+                uri: configs.configs.api_url + configs.configs.api.path + "/" + serie_id + "/episodes",
                 resolveWithFullResponse: false,
                 json: true
             };
@@ -197,7 +197,7 @@ export class StarTrek implements IStarTrekCorpora {
     }
 
     public async series(serie?: number | string): Promise<IApiResult<ISerie>> {
-        let computed_uri: string = serie ? configs.configs.api_url + "/series" + "/" + serie : configs.configs.api_url + "/series";
+        let computed_uri: string = serie ? configs.configs.api_url + configs.configs.api.path + "/series" + "/" + serie : configs.configs.api_url + "/series";
 
         let options = {
             uri: computed_uri,
@@ -251,7 +251,7 @@ export class StarTrek implements IStarTrekCorpora {
         try {
 
             let options = {
-                uri: configs.configs.api_url + "/dialogs/" + serieID,
+                uri: configs.configs.api_url + configs.configs.api.path + "/dialogs/" + serieID,
                 resolveWithFullResponse: false,
                 json: true
             };

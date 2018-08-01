@@ -1,3 +1,4 @@
+import { configs } from './../config/configs';
 import { expect, assert } from 'chai';
 import { StarTrek } from './../index';
 import nock from 'nock';
@@ -9,7 +10,7 @@ before(async () => {
 
     instance = new StarTrek();
 
-    measurements_nock = nock('http://localhost:5000')
+    measurements_nock = nock(configs.api_url)
         .persist()
         .get('/api/v1/measurements')
         .reply(200, [{

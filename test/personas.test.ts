@@ -1,3 +1,4 @@
+import { configs } from './../config/configs';
 import { expect, assert } from 'chai';
 import nock from 'nock';
 
@@ -10,7 +11,7 @@ before(async () => {
 
     instance = new StarTrek();
 
-    persona_nock = nock('http://localhost:5000')
+    persona_nock = nock(configs.api_url)
         .persist()
         .get('/api/v1/personas')
         .reply(200, [{

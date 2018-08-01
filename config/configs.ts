@@ -27,7 +27,7 @@ export class Configuration {
     }
 
     get api_url(): string {
-        return this.apiScheme + "://" + this.apiHost + ":" + this.apiPort + this.apiPath;
+        return this.apiScheme + "://" + this.apiHost + ":" + this.apiPort;
     }
 }
 

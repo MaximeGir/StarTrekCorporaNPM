@@ -1,3 +1,4 @@
+import { configs } from './../config/configs';
 import { expect, assert } from 'chai';
 import { StarTrek } from './../index';
 import nock from 'nock';
@@ -9,7 +10,7 @@ before(async () => {
 
     instance = new StarTrek();
 
-    aliens_mock = nock('http://localhost:5000')
+    aliens_mock = nock(configs.api_url)
         .persist()
         .get('/api/v1/aliens')
         .reply(200, [
@@ -72,7 +73,6 @@ describe("aliens tests", () => {
         assert.typeOf(aliens.data, "array");
         assert.isTrue(aliens.data.length > 0);
         assert.isObject(aliens.data[0]);
-        assert.isTrue(aliens_mock.isDone())
 
     });
 
