@@ -5,6 +5,7 @@ import nock from 'nock';
 import { StarTrek } from '..';
 import { ErrorCode } from '../error/ErrorCode';
 import { ErrorMessage } from '../error/ErrorMessage';
+import { configs } from '../config/configs';
 
 
 let instance: StarTrek;
@@ -13,7 +14,7 @@ let voyager_mock: any;
 before(async () => {
 
     instance = new StarTrek();
-    voyager_mock = nock('http://startrekcorpora.com:5000', { "allowUnmocked": false })
+    voyager_mock = nock(configs.api_url, { "allowUnmocked": false })
         .persist()
         .get('/api/v1/dialogs/voy')
         .reply(200, [{
@@ -52,7 +53,7 @@ describe('Connect to the api when instanciated', () => {
 
     it("should be configured", async () => {
 
-        nock('http://startrekcorpora.com:5000', { "allowUnmocked": true })
+        nock(configs.api_url, { "allowUnmocked": true })
             .get('/api/v1')
             .reply(200);
 

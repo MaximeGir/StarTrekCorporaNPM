@@ -28,8 +28,10 @@ export class StarTrek implements IStarTrekCorpora {
 
     private async configure(api_url: string): Promise<void> {
         try {
+            
             this.api_url = api_url;
             await this.isConfigured();
+
         } catch (err) {
             console.error("Could not connect to Star Trek Corpora\n");
             console.error(err);

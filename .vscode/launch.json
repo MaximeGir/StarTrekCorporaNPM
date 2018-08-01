@@ -24,7 +24,7 @@
                 "--compilers",
                 "ts:ts-node/register",
                 "--no-timeouts",
-                "${relativeFile}"
+                "${workspaceFolder}/test/*.test.ts"
             ],
             "cwd": "${workspaceRoot}"
         }

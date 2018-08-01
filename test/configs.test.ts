@@ -19,8 +19,13 @@ describe("configuration tests", () => {
 
     it("should have all the api attributes", () => {
 
+        if (process.env.NODE_ENV === "production") {
+            expect(configs.api).to.deep.include({ host: "startrekcorpora.com" });
+        } else if (process.env.NODE_ENV === "development") {
+            expect(configs.api).to.deep.include({ host: "localhost" });
+        }
+
         expect(configs.api).to.deep.include({ version: "1.0.0" });
-        expect(configs.api).to.deep.include({ host: "startrekcorpora.com" });
         expect(configs.api).to.deep.include({ port: 5000 });
         expect(configs.api).to.deep.include({ scheme: "http" });
         expect(configs.api).to.deep.include({ path: "/api/v1" });
@@ -28,8 +33,11 @@ describe("configuration tests", () => {
     });
 
     it("should build proper api-url", () => {
-
-        expect(configs.api_url).to.equal("http://startrekcorpora.com:5000");
+        if (process.env.NODE_ENV === "production") {
+            expect(configs.api_url).to.equal("http://startrekcorpora.com:5000");
+        } else if (process.env.NODE_ENV === "development") {
+            expect(configs.api_url).to.equal("http://localhost:5000");
+        }
 
     });
 });
