@@ -1,4 +1,3 @@
-import { IRank } from './interface/IRank';
 import * as request from 'request-promise-native';
 import uuid = require('uuid');
 
@@ -15,6 +14,7 @@ import { IEpisode } from './interface/IEpisode';
 import { IMeasurement } from './interface/IMeasurement';
 import { IPersona } from './interface/IPersona';
 import { IPlanet } from './interface/IPlanet';
+import { IRank } from './interface/IRank';
 import { ISerie } from './interface/ISerie';
 import { ISpaceShip } from './interface/ISpaceShip';
 import { IStarTrekCorpora } from './interface/IStarTrekCorpora';
@@ -28,7 +28,7 @@ export class StarTrek implements IStarTrekCorpora {
 
     private async configure(api_url: string): Promise<void> {
         try {
-            
+
             this.api_url = api_url;
             await this.isConfigured();
 
@@ -188,6 +188,33 @@ export class StarTrek implements IStarTrekCorpora {
             };
 
             let response: Array<IEpisode> = await request.get(options);
+
+            apiResult.data = response;
+            return apiResult;
+
+        } catch (error) {
+            console.log("ERROR! = " + error);
+            throw error;
+        }
+    }
+
+    public async episodeDialog(url: string): Promise<IApiResult<IDialog>> {
+        try {
+
+            let options = {
+                uri: configs.configs.api_url + url,
+                resolveWithFullResponse: false,
+                json: true
+            };
+
+            let apiResult: IApiResult<IDialog> = {
+                id: uuid(),
+                data: null,
+                timestamp: (new Date()).toISOString(),
+                errors: null
+            };
+
+            let response: Array<IDialog> = await request.get(options);
 
             apiResult.data = response;
             return apiResult;

@@ -10,10 +10,38 @@ import { configs } from '../config/configs';
 
 let instance: StarTrek;
 let voyager_mock: any;
+let episode_704_mock: any;
 
 before(async () => {
 
     instance = new StarTrek();
+
+    episode_704_mock = nock(configs.api_url, { "allowUnmocked": false })
+        .persist()
+        .get("/api/v1/dialogs/episode/704")
+        .reply(200,
+            [
+                {
+                    "character_id": 123,
+                    "didascalis": {
+                        "didascalis": [
+
+                        ]
+                    },
+                    "episode_id": 704,
+                    "episode_title": "natural law",
+                    "id": 264112,
+                    "room": {
+                        "rooms": [
+
+                        ]
+                    },
+                    "serie_id": 4,
+                    "speaker_name": "Seven",
+                    "text": " I was, but you were right. Warp Mechanics can be studied any\ntime. The Ventu, on the other hand. \n"
+                }]
+        );
+
     voyager_mock = nock(configs.api_url, { "allowUnmocked": false })
         .persist()
         .get('/api/v1/dialogs/voy')
@@ -107,8 +135,44 @@ describe('dialogs function tests', () => {
 
     });
 
+    it("should returns episode 704 dialogs when asked with url", async () => {
+        let res = await instance.episodeDialog("/api/v1/dialogs/episode/704");
+
+        assert.isNotNull(res);
+        assert.isArray(res.data);
+        assert.isTrue(res.data.length > 0);
+        assert.isNull(res.errors);
+
+        let one_dialog: IDialog = res.data[0];
+
+        assert.isDefined(one_dialog);
+
+        assert.deepEqual(one_dialog, {
+            "character_id": 123,
+            "didascalis": {
+                "didascalis": [
+
+                ]
+            },
+            "episode_id": 704,
+            "episode_title": "natural law",
+            "id": 264112,
+            "room": {
+                "rooms": [
+
+                ]
+            },
+            "serie_id": 4,
+            "speaker_name": "Seven",
+            "text": " I was, but you were right. Warp Mechanics can be studied any\ntime. The Ventu, on the other hand. \n"
+        });
+
+        assert.isTrue(episode_704_mock.isDone());
+    });
+
     it("should returns voyager dialogs", async () => {
         let res = await instance.dialogs("voy");
+
         assert.isNotNull(res);
         assert.isArray(res.data);
         assert.isTrue(res.data.length > 0);
@@ -131,7 +195,6 @@ describe('dialogs function tests', () => {
             speaker_name: "Chakotay",
             text: " Be creative!\n"
         });
-
         assert.isTrue(voyager_mock.isDone());
     });
 

@@ -1,5 +1,3 @@
-import { IRank } from './IRank';
-import { ISpaceShip } from './ISpaceShip';
 import { IAlien } from './IAlien';
 import { IApiResult } from './IApiResult';
 import { IDialog } from './IDialog';
@@ -7,7 +5,9 @@ import { IEpisode } from './IEpisode';
 import { IMeasurement } from './IMeasurement';
 import { IPersona } from './IPersona';
 import { IPlanet } from './IPlanet';
+import { IRank } from './IRank';
 import { ISerie } from './ISerie';
+import { ISpaceShip } from './ISpaceShip';
 
 export interface IStarTrekCorpora {
 
@@ -65,10 +65,15 @@ export interface IStarTrekCorpora {
     episodes(serie_id: number | string): Promise<IApiResult<IEpisode>>;
 
     /**
+     * Get particular episode object from its location (URL)
+     * @param url the url from which dialogs are yielded
+     * @return { Promise<IApiResult<IExplicitEpisode>> }
+     */
+    episodeDialog(url: string): Promise<IApiResult<IDialog>>;
+    /**
      * Get ranks
      * @return { Promise<IApiResult<IRank>>}
      */
     ranks(): Promise<IApiResult<IRank>>;
-
 
 }

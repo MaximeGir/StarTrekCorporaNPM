@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "prebuild": "rimraf dist",
-    "build": "tsc --declaration",
+    "build": "tsc --declaration -d ",
     "postbuild": "./node_modules/.bin/mocha --timeouts=15000 --compilers ts:ts-node/register ./test/*.test.ts",
     "test": "./node_modules/.bin/mocha --timeouts=15000 --compilers ts:ts-node/register ./test/*.test.ts",
     "postinstall": "./node_modules/.bin/mocha --timeouts=15000 --compilers ts:ts-node/register ./test/*.test.ts",
