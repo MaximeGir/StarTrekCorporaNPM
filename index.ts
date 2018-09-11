@@ -219,7 +219,7 @@ export class StarTrek implements IStarTrekCorpora {
         return apiResult;
     }
 
-    public async dialogs(serieID: string | number, charID?: string | null, episodeUrl?: string | null): Promise<IApiResult<IDialog>> {
+    public async dialogs(serieID: string | number | null, charID?: string | null, episodeUrl?: string | null): Promise<IApiResult<IDialog>> {
         try {
 
             if (serieID) {
@@ -255,6 +255,7 @@ export class StarTrek implements IStarTrekCorpora {
      * @param serieID either the textual acronym or the number id of the serie you're looking into
      * "VOY","ENT","TNG","TOS","TAS","DIS" either in caps or tiny or 1,2,3,4,5,6 as number
      * @param charID @see README.md for a list of the characters available for dialogs
+     * @throws NotImplementedYetError 
      */
     private async charDialogs(serieID: string | number, charID: string | null): Promise<IApiResult<IDialog>> {
         throw new NotImplementedYetError(ErrorCode.NOT_IMPLEMENTED_YET, ErrorMessage.NOT_IMPLEMENTED_YET, "dialogs", []);
