@@ -5,8 +5,8 @@ export class BaseError extends Error implements IApiError {
     message: string;
     target: string;
     details: Array<IApiError>;
-
     constructor(code: string, message: string, target: string, details: Array<IApiError>) {
+
         super();
         this.code = code;
         this.message = message;

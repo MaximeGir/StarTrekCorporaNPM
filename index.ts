@@ -6,8 +6,8 @@ import { NotIMplementedYet as NotImplementedYetError } from './error/api/NotImpl
 import { ErrorCode } from './error/ErrorCode';
 import { ErrorMessage } from './error/ErrorMessage';
 import { NotFound as NotFoundError } from './error/http/NotFound';
-import { ServiceNotAvailable as ServiceNotAvailableError } from './error/http/ServiceUnavailable';
 import { IAlien } from './interface/IAlien';
+import { ServiceNotAvailable as ServiceNotAvailableError } from './error/http/ServiceUnavailable';
 import { IApiResult } from './interface/IApiResult';
 import { IDialog } from './interface/IDialog';
 import { IEpisode } from './interface/IEpisode';
@@ -198,11 +198,79 @@ export class StarTrek implements IStarTrekCorpora {
         }
     }
 
-    public async episodeDialog(url: string): Promise<IApiResult<IDialog>> {
+    public async series(serie?: number | string): Promise<IApiResult<ISerie>> {
+        let computed_uri: string = serie ? configs.configs.api_url + configs.configs.api.path + "/series" + "/" + serie : configs.configs.api_url + "/series";
+
+        let options = {
+            uri: computed_uri,
+            resolveWithFullResponse: false,
+            json: true
+        };
+
+        let response: Array<ISerie> = await request.get(options);
+
+        let apiResult: IApiResult<ISerie> = {
+            id: uuid(),
+            data: response,
+            timestamp: (new Date()).toISOString(),
+            errors: null
+        };
+
+        return apiResult;
+    }
+
+    public async dialogs(serieID: string | number, charID?: string | null, episodeUrl?: string | null): Promise<IApiResult<IDialog>> {
+        try {
+
+            if (serieID) {
+
+                if (charID) {
+
+                    return (await this.charDialogs(serieID, charID));
+
+                }
+
+                return (await this.serieDialogs(serieID));
+
+            } else if (episodeUrl) {
+
+                return (await this.episodeDialog(episodeUrl));
+
+            } else {
+
+                throw new NotFoundError(ErrorCode.NOT_FOUND_ERROR, ErrorMessage.NOT_FOUND_ERROR + " : " + serieID, "dialogs", []);
+
+            }
+
+        } catch (error) {
+
+            throw error;
+
+        }
+
+    }
+
+    /**
+     * Get dialogs from a particular serie for a particular character
+     * @param serieID either the textual acronym or the number id of the serie you're looking into
+     * "VOY","ENT","TNG","TOS","TAS","DIS" either in caps or tiny or 1,2,3,4,5,6 as number
+     * @param charID @see README.md for a list of the characters available for dialogs
+     */
+    private async charDialogs(serieID: string | number, charID: string | null): Promise<IApiResult<IDialog>> {
+        throw new NotImplementedYetError(ErrorCode.NOT_IMPLEMENTED_YET, ErrorMessage.NOT_IMPLEMENTED_YET, "dialogs", []);
+    }
+
+    /**
+     * Get dialogs from a whole serie
+     * WARNING : Performance is bad
+     * @param serieID either the textual acronym or the number id of the serie you're looking into
+     * "VOY","ENT","TNG","TOS","TAS","DIS" either in caps or tiny or 1,2,3,4,5,6 as number
+     */
+    private async serieDialogs(serieID: string | number): Promise<IApiResult<IDialog>> {
         try {
 
             let options = {
-                uri: configs.configs.api_url + url,
+                uri: configs.configs.api_url + configs.configs.api.path + "/dialogs/" + serieID,
                 resolveWithFullResponse: false,
                 json: true
             };
@@ -225,62 +293,16 @@ export class StarTrek implements IStarTrekCorpora {
         }
     }
 
-    public async series(serie?: number | string): Promise<IApiResult<ISerie>> {
-        let computed_uri: string = serie ? configs.configs.api_url + configs.configs.api.path + "/series" + "/" + serie : configs.configs.api_url + "/series";
-
-        let options = {
-            uri: computed_uri,
-            resolveWithFullResponse: false,
-            json: true
-        };
-
-        let response: Array<ISerie> = await request.get(options);
-
-        let apiResult: IApiResult<ISerie> = {
-            id: uuid(),
-            data: response,
-            timestamp: (new Date()).toISOString(),
-            errors: null
-        };
-
-        return apiResult;
-    }
-
-    public async dialogs(serieID: string | number, charID?: string | null): Promise<IApiResult<IDialog>> {
-        try {
-            if (serieID) {
-
-                if (charID) {
-
-                    return (await this.charDialogs(serieID, charID));
-
-                }
-
-                return (await this.serieDialogs(serieID));
-
-            } else {
-
-                throw new NotFoundError(ErrorCode.NOT_FOUND_ERROR, ErrorMessage.NOT_FOUND_ERROR + " : " + serieID, "dialogs", []);
-
-            }
-
-        } catch (error) {
-            throw error;
-        }
-
-    }
-
-
-    private async charDialogs(serieID: string | number, charID: string | null): Promise<IApiResult<IDialog>> {
-        throw new NotImplementedYetError(ErrorCode.NOT_IMPLEMENTED_YET, ErrorMessage.NOT_IMPLEMENTED_YET, "dialogs", []);
-    }
-
-
-    private async serieDialogs(serieID: string | number): Promise<IApiResult<IDialog>> {
+    /**
+     * Get particular episode object from its location (URL)
+     * @param url the url from which dialogs are yielded
+     * @return { Promise<IApiResult<IExplicitEpisode>> }
+     */
+    private async episodeDialog(url: string): Promise<IApiResult<IDialog>> {
         try {
 
             let options = {
-                uri: configs.configs.api_url + configs.configs.api.path + "/dialogs/" + serieID,
+                uri: configs.configs.api_url + url,
                 resolveWithFullResponse: false,
                 json: true
             };
