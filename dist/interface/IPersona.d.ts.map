@@ -1,0 +1,1 @@
+{"version":3,"file":"IPersona.d.ts","sourceRoot":"","sources":["../../interface/IPersona.ts"],"names":[],"mappings":"AAAA,MAAM,WAAW,QAAQ;IACrB,EAAE,CAAC,EAAE,MAAM,CAAC;IACZ,IAAI,CAAC,EAAE,MAAM,CAAC;IACd,SAAS,CAAC,EAAE,MAAM,CAAC;IACnB,IAAI,EAAE,MAAM,CAAC;IACb,OAAO,EAAE,MAAM,CAAC;IAChB,MAAM,EAAE,MAAM,CAAC;CAClB"}

@@ -1,0 +1,1 @@
+{"version":3,"file":"ISpaceShip.d.ts","sourceRoot":"","sources":["../../interface/ISpaceShip.ts"],"names":[],"mappings":"AAAA,MAAM,WAAW,UAAU;IACvB,EAAE,EAAE,MAAM,CAAC;IACX,WAAW,EAAE,MAAM,CAAC;IACpB,IAAI,EAAE,MAAM,CAAC;IACb,QAAQ,EAAE,MAAM,CAAC;IACjB,UAAU,EAAE,MAAM,CAAC;CACtB"}

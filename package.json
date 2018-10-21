@@ -1,6 +1,6 @@
 {
-  "name": "stc",
-  "version": "1.0.0",
+  "name": "stcorpora",
+  "version": "1.2.0",
   "description": "StarTrekCorpora client",
   "main": "dist/index.js",
   "scripts": {
