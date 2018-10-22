@@ -1,6 +1,6 @@
 {
   "name": "stcorpora",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "StarTrekCorpora client",
   "main": "dist/index.js",
   "scripts": {
@@ -8,7 +8,6 @@
     "build": "tsc --declaration -d ",
     "postbuild": "./node_modules/.bin/mocha --timeouts=15000 --compilers ts:ts-node/register ./test/*.test.ts",
     "test": "./node_modules/.bin/mocha --timeouts=15000 --compilers ts:ts-node/register ./test/*.test.ts",
-    "postinstall": "./node_modules/.bin/mocha --timeouts=15000 --compilers ts:ts-node/register ./test/*.test.ts",
     "clean": "rimraf dist"
   },
   "repository": {

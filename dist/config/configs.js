@@ -3,14 +3,24 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+process.env.SUPPRESS_NO_CONFIG_WARNING = 'y';
 const config_1 = __importDefault(require("config"));
 class Configuration {
     constructor() {
-        this.apiVersion = config_1.default.get('api.version');
-        this.apiHost = config_1.default.get('api.host');
-        this.apiPort = config_1.default.get('api.port');
-        this.apiPath = config_1.default.get('api.path');
-        this.apiScheme = config_1.default.get('api.scheme');
+        try {
+            this.apiVersion = config_1.default.get('api.version');
+            this.apiHost = config_1.default.get('api.host');
+            this.apiPort = config_1.default.get('api.port');
+            this.apiPath = config_1.default.get('api.path');
+            this.apiScheme = config_1.default.get('api.scheme');
+        }
+        catch (err) {
+            this.apiVersion = "1.0.0";
+            this.apiHost = "startrekcorpora.com";
+            this.apiPort = "5000";
+            this.apiPath = "/api/v1";
+            this.apiScheme = "http";
+        }
     }
     get api() {
         return {

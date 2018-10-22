@@ -1,4 +1,7 @@
+process.env.SUPPRESS_NO_CONFIG_WARNING = 'y';
+
 import config from "config";
+
 
 export class Configuration {
     private readonly apiVersion: string;
@@ -9,11 +12,20 @@ export class Configuration {
     private readonly apiUrl: string;
 
     constructor() {
-        this.apiVersion = <string>config.get('api.version');
-        this.apiHost = <string>config.get('api.host');
-        this.apiPort = <string>config.get('api.port');
-        this.apiPath = <string>config.get('api.path');
-        this.apiScheme = <string>config.get('api.scheme');
+        try {
+            this.apiVersion = <string>config.get('api.version');
+            this.apiHost = <string>config.get('api.host');
+            this.apiPort = <string>config.get('api.port');
+            this.apiPath = <string>config.get('api.path');
+            this.apiScheme = <string>config.get('api.scheme');
+        } catch (err) {
+
+            this.apiVersion = "1.0.0";
+            this.apiHost = "startrekcorpora.com";
+            this.apiPort = "5000";
+            this.apiPath = "/api/v1";
+            this.apiScheme = "http";
+        }
     }
 
     get api(): any {
