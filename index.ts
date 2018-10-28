@@ -6,8 +6,8 @@ import { NotIMplementedYet as NotImplementedYetError } from './error/api/NotImpl
 import { ErrorCode } from './error/ErrorCode';
 import { ErrorMessage } from './error/ErrorMessage';
 import { NotFound as NotFoundError } from './error/http/NotFound';
-import { IAlien } from './interface/IAlien';
 import { ServiceNotAvailable as ServiceNotAvailableError } from './error/http/ServiceUnavailable';
+import { IAlien } from './interface/IAlien';
 import { IApiResult } from './interface/IApiResult';
 import { IDialog } from './interface/IDialog';
 import { IEpisode } from './interface/IEpisode';
@@ -326,3 +326,15 @@ export class StarTrek implements IStarTrekCorpora {
         }
     }
 }
+
+export * from "./interface/IAlien";
+export * from "./interface/IApiError";
+export * from "./interface/IApiResult";
+export * from "./interface/IDialog";
+export * from "./interface/IEpisode";
+export * from "./interface/IMeasurement"
+export * from "./interface/IPersona";
+export * from "./interface/IPlanet";
+export * from "./interface/IRank";
+export * from "./interface/ISerie";
+export * from "./interface/ISpaceShip";

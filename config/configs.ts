@@ -9,7 +9,6 @@ export class Configuration {
     private readonly apiPort: string;
     private readonly apiPath: string;
     private readonly apiScheme: string;
-    private readonly apiUrl: string;
 
     constructor() {
         try {

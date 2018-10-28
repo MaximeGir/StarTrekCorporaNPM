@@ -45,4 +45,15 @@ export declare class StarTrek implements IStarTrekCorpora {
      */
     private episodeDialog;
 }
+export * from "./interface/IAlien";
+export * from "./interface/IApiError";
+export * from "./interface/IApiResult";
+export * from "./interface/IDialog";
+export * from "./interface/IEpisode";
+export * from "./interface/IMeasurement";
+export * from "./interface/IPersona";
+export * from "./interface/IPlanet";
+export * from "./interface/IRank";
+export * from "./interface/ISerie";
+export * from "./interface/ISpaceShip";
 //# sourceMappingURL=index.d.ts.map
