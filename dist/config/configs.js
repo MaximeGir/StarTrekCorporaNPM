@@ -13,6 +13,7 @@ class Configuration {
             this.apiPort = config_1.default.get('api.port');
             this.apiPath = config_1.default.get('api.path');
             this.apiScheme = config_1.default.get('api.scheme');
+            this.key = config_1.default.get('api.key');
         }
         catch (err) {
             this.apiVersion = "1.0.0";
@@ -20,6 +21,7 @@ class Configuration {
             this.apiPort = "5000";
             this.apiPath = "/api/v1";
             this.apiScheme = "http";
+            this.key = "secret_key";
         }
     }
     get api() {
@@ -28,7 +30,8 @@ class Configuration {
             "host": this.apiHost,
             "port": this.apiPort,
             "path": this.apiPath,
-            "scheme": this.apiScheme
+            "scheme": this.apiScheme,
+            "key": this.key
         };
     }
     get api_url() {

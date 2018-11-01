@@ -11,6 +11,7 @@ import { ISpaceShip } from './interface/ISpaceShip';
 import { IStarTrekCorpora } from './interface/IStarTrekCorpora';
 export declare class StarTrek implements IStarTrekCorpora {
     private api_url;
+    private readonly headers;
     constructor();
     private configure;
     isConfigured(): Promise<boolean>;
@@ -45,6 +46,9 @@ export declare class StarTrek implements IStarTrekCorpora {
      */
     private episodeDialog;
 }
+/**
+ * Exporting all entities interfaces
+ */
 export * from "./interface/IAlien";
 export * from "./interface/IApiError";
 export * from "./interface/IApiResult";

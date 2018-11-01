@@ -17,7 +17,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const request = __importStar(require("request-promise-native"));
 const uuid = require("uuid");
-const configs = __importStar(require("./config/configs"));
+const configs_1 = require("./config/configs");
 const NotImplementedYet_1 = require("./error/api/NotImplementedYet");
 const ErrorCode_1 = require("./error/ErrorCode");
 const ErrorMessage_1 = require("./error/ErrorMessage");
@@ -25,7 +25,10 @@ const NotFound_1 = require("./error/http/NotFound");
 const ServiceUnavailable_1 = require("./error/http/ServiceUnavailable");
 class StarTrek {
     constructor() {
-        this.configure(configs.configs.api_url);
+        this.headers = {
+            Authorization: configs_1.configs.api.key
+        };
+        this.configure(configs_1.configs.api_url);
     }
     configure(api_url) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -43,7 +46,7 @@ class StarTrek {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const options = {
-                    uri: configs.configs.api_url + configs.configs.api.path,
+                    uri: this.api_url + configs_1.configs.api.path,
                     resolveWithFullResponse: true
                 };
                 let response = yield request.get(options);
@@ -57,9 +60,10 @@ class StarTrek {
     ranks() {
         return __awaiter(this, void 0, void 0, function* () {
             let options = {
-                uri: configs.configs.api_url + configs.configs.api.path + "/ranks",
+                uri: this.api_url + configs_1.configs.api.path + "/ranks",
                 resolveWithFullResponse: false,
-                json: true
+                json: true,
+                headers: this.headers
             };
             let response = yield request.get(options);
             let apiResult = {
@@ -74,7 +78,7 @@ class StarTrek {
     spaceships() {
         return __awaiter(this, void 0, void 0, function* () {
             let options = {
-                uri: configs.configs.api_url + configs.configs.api.path + "/spaceships",
+                uri: this.api_url + configs_1.configs.api.path + "/spaceships",
                 resolveWithFullResponse: false,
                 json: true
             };
@@ -91,7 +95,7 @@ class StarTrek {
     planets() {
         return __awaiter(this, void 0, void 0, function* () {
             let options = {
-                uri: configs.configs.api_url + configs.configs.api.path + "/planets",
+                uri: this.api_url + configs_1.configs.api.path + "/planets",
                 resolveWithFullResponse: false,
                 json: true
             };
@@ -108,7 +112,7 @@ class StarTrek {
     personas() {
         return __awaiter(this, void 0, void 0, function* () {
             let options = {
-                uri: configs.configs.api_url + configs.configs.api.path + "/personas",
+                uri: this.api_url + configs_1.configs.api.path + "/personas",
                 resolveWithFullResponse: false,
                 json: true
             };
@@ -125,7 +129,7 @@ class StarTrek {
     measurements() {
         return __awaiter(this, void 0, void 0, function* () {
             let options = {
-                uri: configs.configs.api_url + configs.configs.api.path + "/measurements",
+                uri: this.api_url + configs_1.configs.api.path + "/measurements",
                 resolveWithFullResponse: false,
                 json: true
             };
@@ -142,7 +146,7 @@ class StarTrek {
     aliens() {
         return __awaiter(this, void 0, void 0, function* () {
             let options = {
-                uri: configs.configs.api_url + configs.configs.api.path + "/aliens",
+                uri: this.api_url + configs_1.configs.api.path + "/aliens",
                 resolveWithFullResponse: false,
                 json: true
             };
@@ -160,7 +164,7 @@ class StarTrek {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 let options = {
-                    uri: configs.configs.api_url + configs.configs.api.path + "/" + serie_id + "/episodes",
+                    uri: this.api_url + configs_1.configs.api.path + "/" + serie_id + "/episodes",
                     resolveWithFullResponse: false,
                     json: true
                 };
@@ -182,7 +186,7 @@ class StarTrek {
     }
     series(serie) {
         return __awaiter(this, void 0, void 0, function* () {
-            let computed_uri = serie ? configs.configs.api_url + configs.configs.api.path + "/series" + "/" + serie : configs.configs.api_url + "/series";
+            let computed_uri = serie ? this.api_url + configs_1.configs.api.path + "/series" + "/" + serie : this.api_url + "/series";
             let options = {
                 uri: computed_uri,
                 resolveWithFullResponse: false,
@@ -241,7 +245,7 @@ class StarTrek {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 let options = {
-                    uri: configs.configs.api_url + configs.configs.api.path + "/dialogs/" + serieID,
+                    uri: this.api_url + configs_1.configs.api.path + "/dialogs/" + serieID,
                     resolveWithFullResponse: false,
                     json: true
                 };
@@ -270,7 +274,7 @@ class StarTrek {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 let options = {
-                    uri: configs.configs.api_url + url,
+                    uri: this.api_url + url,
                     resolveWithFullResponse: false,
                     json: true
                 };

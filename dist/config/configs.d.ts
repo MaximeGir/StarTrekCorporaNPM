@@ -4,6 +4,7 @@ export declare class Configuration {
     private readonly apiPort;
     private readonly apiPath;
     private readonly apiScheme;
+    private readonly key;
     constructor();
     readonly api: any;
     readonly api_url: string;

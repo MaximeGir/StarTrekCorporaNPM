@@ -19,7 +19,7 @@ describe("configuration tests", () => {
             chai_1.expect(configs_1.configs.api).to.deep.include({ host: "localhost" });
         }
         chai_1.expect(configs_1.configs.api).to.deep.include({ version: "1.0.0" });
-        chai_1.expect(configs_1.configs.api).to.deep.include({ port: 5000 });
+        chai_1.expect(configs_1.configs.api).to.deep.include({ port: '5000' });
         chai_1.expect(configs_1.configs.api).to.deep.include({ scheme: "http" });
         chai_1.expect(configs_1.configs.api).to.deep.include({ path: "/api/v1" });
     });
