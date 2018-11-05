@@ -18,12 +18,13 @@ describe("Api key", () => {
     it("should return a handshake", async () => {
 
         const apiKeyTemplate: IApiHandshake = {
-            id: "id",
+            id: 1,
             timestamps: new Date(),
             response: {
                 apiKey: apiKey,
                 associatedEmail: "a@b.c"
-            }
+            },
+            error: null
         };
 
         let handshake: IApiHandshake = await ApiKeyUtils.register(apiKey);
@@ -35,8 +36,7 @@ describe("Api key", () => {
         const handshake: IApiHandshake = await ApiKeyUtils.register(apiKey);
 
         assert.isOk(handshake.id);
-        assert.isString(handshake.id);
-        assert.strictEqual(handshake.id.length, "10ba038e-48da-487b-96e8-8d3b99b6d18a".length);
+        assert.isNumber(handshake.id);
 
     });
 
@@ -60,4 +60,6 @@ describe("Api key", () => {
         assert.isTrue(handshake.response.associatedEmail.includes("@"));
         assert.isTrue(handshake.response.associatedEmail.includes("."));
     });
+
 });
+

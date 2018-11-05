@@ -7,13 +7,16 @@ export class ApiKeyUtils {
     private key: IApiKey;
 
     public static async register(key: IApiKey): Promise<IApiHandshake> {
+
+
         const handshake: IApiHandshake = {
-            id: uuid(),
+            id: 1,
             timestamps: new Date(),
             response: {
                 apiKey: key,
                 associatedEmail: "a@b.c"
-            }
+            },
+            error: null
         };
 
         return handshake;
