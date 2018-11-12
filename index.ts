@@ -1,4 +1,4 @@
-import * as request from 'request-promise-native';
+import * as superagent from 'superagent';
 import uuid = require('uuid');
 
 import { configs } from './config/configs';
@@ -44,13 +44,12 @@ export class StarTrek implements IStarTrekCorpora {
     public async isConfigured(): Promise<boolean> {
         try {
 
-            const options = {
-                uri: this.api_url + configs.api.path,
-                resolveWithFullResponse: true
-            };
-
-            let response = await request.get(options);
-            return response.statusCode === 200;
+            let response = await superagent.get(this.api_url + configs.api.path).send();
+            if (response.error) {
+                throw response.error;
+            }
+            else
+                return response.statusCode === 200;
 
         } catch (e) {
 
@@ -60,130 +59,113 @@ export class StarTrek implements IStarTrekCorpora {
     }
 
     public async ranks(): Promise<IApiResult<IRank>> {
-        let options = {
-            uri: this.api_url + configs.api.path + "/ranks",
-            resolveWithFullResponse: false,
-            json: true,
-            headers: this.headers
-        };
-
-        let response: Array<IRank> = await request.get(options);
 
         let apiResult: IApiResult<IRank> = {
             id: uuid(),
-            data: response,
+            data: null,
             timestamp: (new Date()).toISOString(),
             errors: null
         };
+
+        let response = await superagent.get(this.api_url + configs.api.path + "/ranks").set(this.headers).send();
+
+        response.error ?
+            apiResult.errors = response.errors :
+            apiResult.data = response.body;
 
         return apiResult;
     }
 
     public async spaceships(): Promise<IApiResult<ISpaceShip>> {
-        let options = {
-            uri: this.api_url + configs.api.path + "/spaceships",
-            resolveWithFullResponse: false,
-            json: true
-        };
-
-        let response: Array<ISpaceShip> = await request.get(options);
 
         let apiResult: IApiResult<ISpaceShip> = {
             id: uuid(),
-            data: response,
+            data: null,
             timestamp: (new Date()).toISOString(),
             errors: null
         };
+
+        let response = await superagent.get(this.api_url + configs.api.path + "/spaceships").set(this.headers).send();
+
+        response.error ?
+            apiResult.errors = response.errors :
+            apiResult.data = response.body;
 
         return apiResult;
 
     }
 
     public async planets(): Promise<IApiResult<IPlanet>> {
-        let options = {
-            uri: this.api_url + configs.api.path + "/planets",
-            resolveWithFullResponse: false,
-            json: true
-        };
-
-        let response: Array<IPlanet> = await request.get(options);
 
         let apiResult: IApiResult<IPlanet> = {
             id: uuid(),
-            data: response,
+            data: null,
             timestamp: (new Date()).toISOString(),
             errors: null
         };
+
+        let response = await superagent.get(this.api_url + configs.api.path + "/planets").set(this.headers).send();
+
+        response.error ?
+            apiResult.errors = response.errors :
+            apiResult.data = response.body;
 
         return apiResult;
     }
 
     public async personas(): Promise<IApiResult<IPersona>> {
-        let options = {
-            uri: this.api_url + configs.api.path + "/personas",
-            resolveWithFullResponse: false,
-            json: true
-        };
-
-        let response: Array<IPersona> = await request.get(options);
-
         let apiResult: IApiResult<IPersona> = {
             id: uuid(),
-            data: response,
+            data: null,
             timestamp: (new Date()).toISOString(),
             errors: null
         };
+
+        let response = await superagent.get(this.api_url + configs.api.path + "/personas").set(this.headers).send();
+
+        response.error ?
+            apiResult.errors = response.errors :
+            apiResult.data = response.body;
 
         return apiResult;
     }
 
     public async measurements(): Promise<IApiResult<IMeasurement>> {
-        let options = {
-            uri: this.api_url + configs.api.path + "/measurements",
-            resolveWithFullResponse: false,
-            json: true
-        };
-
-        let response: Array<IMeasurement> = await request.get(options);
-
         let apiResult: IApiResult<IMeasurement> = {
             id: uuid(),
-            data: response,
+            data: null,
             timestamp: (new Date()).toISOString(),
             errors: null
         };
+
+        let response = await superagent.get(this.api_url + configs.api.path + "/measurements").set(this.headers).send();
+
+        response.error ?
+            apiResult.errors = response.errors :
+            apiResult.data = response.body;
 
         return apiResult;
     }
 
     public async aliens(): Promise<IApiResult<IAlien>> {
-        let options = {
-            uri: this.api_url + configs.api.path + "/aliens",
-            resolveWithFullResponse: false,
-            json: true
-        };
-
-        let response: Array<IAlien> = await request.get(options);
-
         let apiResult: IApiResult<IAlien> = {
             id: uuid(),
-            data: response,
+            data: null,
             timestamp: (new Date()).toISOString(),
             errors: null
         };
+
+        let response = await superagent.get(this.api_url + configs.api.path + "/aliens").set(this.headers).send();
+
+        response.error ?
+            apiResult.errors = response.errors :
+            apiResult.data = response.body;
 
         return apiResult;
     }
 
     public async episodes(serie_id: number | string): Promise<IApiResult<IEpisode>> {
         try {
-
-            let options = {
-                uri: this.api_url + configs.api.path + "/" + serie_id + "/episodes",
-                resolveWithFullResponse: false,
-                json: true
-            };
-
             let apiResult: IApiResult<IEpisode> = {
                 id: uuid(),
                 data: null,
@@ -191,13 +173,15 @@ export class StarTrek implements IStarTrekCorpora {
                 errors: null
             };
 
-            let response: Array<IEpisode> = await request.get(options);
+            let response = await superagent.get(this.api_url + configs.api.path + "/" + serie_id + "/episodes").set(this.headers).send();
 
-            apiResult.data = response;
+            response.error ?
+                apiResult.errors = response.errors :
+                apiResult.data = response.body;
+
             return apiResult;
 
         } catch (error) {
-            console.log("ERROR! = " + error);
             throw error;
         }
     }
@@ -205,20 +189,18 @@ export class StarTrek implements IStarTrekCorpora {
     public async series(serie?: number | string): Promise<IApiResult<ISerie>> {
         let computed_uri: string = serie ? this.api_url + configs.api.path + "/series" + "/" + serie : this.api_url + "/series";
 
-        let options = {
-            uri: computed_uri,
-            resolveWithFullResponse: false,
-            json: true
-        };
-
-        let response: Array<ISerie> = await request.get(options);
-
         let apiResult: IApiResult<ISerie> = {
             id: uuid(),
-            data: response,
+            data: null,
             timestamp: (new Date()).toISOString(),
             errors: null
         };
+
+        let response = await superagent.get(computed_uri).set(this.headers).send();
+
+        response.error ?
+            apiResult.errors = response.errors :
+            apiResult.data = response.body;
 
         return apiResult;
     }
@@ -274,12 +256,6 @@ export class StarTrek implements IStarTrekCorpora {
     private async serieDialogs(serieID: string | number): Promise<IApiResult<IDialog>> {
         try {
 
-            let options = {
-                uri: this.api_url + configs.api.path + "/dialogs/" + serieID,
-                resolveWithFullResponse: false,
-                json: true
-            };
-
             let apiResult: IApiResult<IDialog> = {
                 id: uuid(),
                 data: null,
@@ -287,9 +263,12 @@ export class StarTrek implements IStarTrekCorpora {
                 errors: null
             };
 
-            let response: Array<IDialog> = await request.get(options);
+            let response = await superagent.get(this.api_url + configs.api.path + "/dialogs/" + serieID).set(this.headers).send();
 
-            apiResult.data = response;
+            response.error ?
+                apiResult.errors = response.errors :
+                apiResult.data = response.body;
+
             return apiResult;
 
         } catch (error) {
@@ -306,12 +285,6 @@ export class StarTrek implements IStarTrekCorpora {
     private async episodeDialog(url: string): Promise<IApiResult<IDialog>> {
         try {
 
-            let options = {
-                uri: this.api_url + url,
-                resolveWithFullResponse: false,
-                json: true
-            };
-
             let apiResult: IApiResult<IDialog> = {
                 id: uuid(),
                 data: null,
@@ -319,9 +292,12 @@ export class StarTrek implements IStarTrekCorpora {
                 errors: null
             };
 
-            let response: Array<IDialog> = await request.get(options);
+            let response = await superagent.get(this.api_url + url).set(this.headers).send();
 
-            apiResult.data = response;
+            response.error ?
+                apiResult.errors = response.errors :
+                apiResult.data = response.body;
+
             return apiResult;
 
         } catch (error) {

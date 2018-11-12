@@ -15,7 +15,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const request = __importStar(require("request-promise-native"));
+const superagent = __importStar(require("superagent"));
 const uuid = require("uuid");
 const configs_1 = require("./config/configs");
 const NotImplementedYet_1 = require("./error/api/NotImplementedYet");
@@ -45,12 +45,12 @@ class StarTrek {
     isConfigured() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const options = {
-                    uri: this.api_url + configs_1.configs.api.path,
-                    resolveWithFullResponse: true
-                };
-                let response = yield request.get(options);
-                return response.statusCode === 200;
+                let response = yield superagent.get(this.api_url + configs_1.configs.api.path).send();
+                if (response.error) {
+                    throw response.error;
+                }
+                else
+                    return response.statusCode === 200;
             }
             catch (e) {
                 throw new ServiceUnavailable_1.ServiceNotAvailable(ErrorCode_1.ErrorCode.SERVICE_NOT_AVAILABLE, ErrorMessage_1.ErrorMessage.SERVICE_NOT_AVAILABLE, "isConfigured", []);
@@ -59,127 +59,110 @@ class StarTrek {
     }
     ranks() {
         return __awaiter(this, void 0, void 0, function* () {
-            let options = {
-                uri: this.api_url + configs_1.configs.api.path + "/ranks",
-                resolveWithFullResponse: false,
-                json: true,
-                headers: this.headers
-            };
-            let response = yield request.get(options);
             let apiResult = {
                 id: uuid(),
-                data: response,
+                data: null,
                 timestamp: (new Date()).toISOString(),
                 errors: null
             };
+            let response = yield superagent.get(this.api_url + configs_1.configs.api.path + "/ranks").set(this.headers).send();
+            response.error ?
+                apiResult.errors = response.errors :
+                apiResult.data = response.body;
             return apiResult;
         });
     }
     spaceships() {
         return __awaiter(this, void 0, void 0, function* () {
-            let options = {
-                uri: this.api_url + configs_1.configs.api.path + "/spaceships",
-                resolveWithFullResponse: false,
-                json: true
-            };
-            let response = yield request.get(options);
             let apiResult = {
                 id: uuid(),
-                data: response,
+                data: null,
                 timestamp: (new Date()).toISOString(),
                 errors: null
             };
+            let response = yield superagent.get(this.api_url + configs_1.configs.api.path + "/spaceships").set(this.headers).send();
+            response.error ?
+                apiResult.errors = response.errors :
+                apiResult.data = response.body;
             return apiResult;
         });
     }
     planets() {
         return __awaiter(this, void 0, void 0, function* () {
-            let options = {
-                uri: this.api_url + configs_1.configs.api.path + "/planets",
-                resolveWithFullResponse: false,
-                json: true
-            };
-            let response = yield request.get(options);
             let apiResult = {
                 id: uuid(),
-                data: response,
+                data: null,
                 timestamp: (new Date()).toISOString(),
                 errors: null
             };
+            let response = yield superagent.get(this.api_url + configs_1.configs.api.path + "/planets").set(this.headers).send();
+            response.error ?
+                apiResult.errors = response.errors :
+                apiResult.data = response.body;
             return apiResult;
         });
     }
     personas() {
         return __awaiter(this, void 0, void 0, function* () {
-            let options = {
-                uri: this.api_url + configs_1.configs.api.path + "/personas",
-                resolveWithFullResponse: false,
-                json: true
-            };
-            let response = yield request.get(options);
             let apiResult = {
                 id: uuid(),
-                data: response,
+                data: null,
                 timestamp: (new Date()).toISOString(),
                 errors: null
             };
+            let response = yield superagent.get(this.api_url + configs_1.configs.api.path + "/personas").set(this.headers).send();
+            response.error ?
+                apiResult.errors = response.errors :
+                apiResult.data = response.body;
             return apiResult;
         });
     }
     measurements() {
         return __awaiter(this, void 0, void 0, function* () {
-            let options = {
-                uri: this.api_url + configs_1.configs.api.path + "/measurements",
-                resolveWithFullResponse: false,
-                json: true
-            };
-            let response = yield request.get(options);
             let apiResult = {
                 id: uuid(),
-                data: response,
+                data: null,
                 timestamp: (new Date()).toISOString(),
                 errors: null
             };
+            let response = yield superagent.get(this.api_url + configs_1.configs.api.path + "/measurements").set(this.headers).send();
+            response.error ?
+                apiResult.errors = response.errors :
+                apiResult.data = response.body;
             return apiResult;
         });
     }
     aliens() {
         return __awaiter(this, void 0, void 0, function* () {
-            let options = {
-                uri: this.api_url + configs_1.configs.api.path + "/aliens",
-                resolveWithFullResponse: false,
-                json: true
-            };
-            let response = yield request.get(options);
             let apiResult = {
                 id: uuid(),
-                data: response,
+                data: null,
                 timestamp: (new Date()).toISOString(),
                 errors: null
             };
+            let response = yield superagent.get(this.api_url + configs_1.configs.api.path + "/aliens").set(this.headers).send();
+            response.error ?
+                apiResult.errors = response.errors :
+                apiResult.data = response.body;
             return apiResult;
         });
     }
     episodes(serie_id) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                let options = {
-                    uri: this.api_url + configs_1.configs.api.path + "/" + serie_id + "/episodes",
-                    resolveWithFullResponse: false,
-                    json: true
-                };
                 let apiResult = {
                     id: uuid(),
                     data: null,
                     timestamp: (new Date()).toISOString(),
                     errors: null
                 };
-                let response = yield request.get(options);
-                apiResult.data = response;
+                let response = yield superagent.get(this.api_url + configs_1.configs.api.path + "/" + serie_id + "/episodes").set(this.headers).send();
+                response.error ?
+                    apiResult.errors = response.errors :
+                    apiResult.data = response.body;
                 return apiResult;
             }
             catch (error) {
-                console.log("ERROR! = " + error);
                 throw error;
             }
         });
@@ -187,18 +170,16 @@ class StarTrek {
     series(serie) {
         return __awaiter(this, void 0, void 0, function* () {
             let computed_uri = serie ? this.api_url + configs_1.configs.api.path + "/series" + "/" + serie : this.api_url + "/series";
-            let options = {
-                uri: computed_uri,
-                resolveWithFullResponse: false,
-                json: true
-            };
-            let response = yield request.get(options);
             let apiResult = {
                 id: uuid(),
-                data: response,
+                data: null,
                 timestamp: (new Date()).toISOString(),
                 errors: null
             };
+            let response = yield superagent.get(computed_uri).set(this.headers).send();
+            response.error ?
+                apiResult.errors = response.errors :
+                apiResult.data = response.body;
             return apiResult;
         });
     }
@@ -244,19 +225,16 @@ class StarTrek {
     serieDialogs(serieID) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                let options = {
-                    uri: this.api_url + configs_1.configs.api.path + "/dialogs/" + serieID,
-                    resolveWithFullResponse: false,
-                    json: true
-                };
                 let apiResult = {
                     id: uuid(),
                     data: null,
                     timestamp: (new Date()).toISOString(),
                     errors: null
                 };
-                let response = yield request.get(options);
-                apiResult.data = response;
+                let response = yield superagent.get(this.api_url + configs_1.configs.api.path + "/dialogs/" + serieID).set(this.headers).send();
+                response.error ?
+                    apiResult.errors = response.errors :
+                    apiResult.data = response.body;
                 return apiResult;
             }
             catch (error) {
@@ -273,19 +251,16 @@ class StarTrek {
     episodeDialog(url) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                let options = {
-                    uri: this.api_url + url,
-                    resolveWithFullResponse: false,
-                    json: true
-                };
                 let apiResult = {
                     id: uuid(),
                     data: null,
                     timestamp: (new Date()).toISOString(),
                     errors: null
                 };
-                let response = yield request.get(options);
-                apiResult.data = response;
+                let response = yield superagent.get(this.api_url + url).set(this.headers).send();
+                response.error ?
+                    apiResult.errors = response.errors :
+                    apiResult.data = response.body;
                 return apiResult;
             }
             catch (error) {
