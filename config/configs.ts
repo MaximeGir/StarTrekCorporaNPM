@@ -19,7 +19,6 @@ export class Configuration {
             this.apiScheme = <string>config.get('api.scheme');
             this.key = <string>config.get('api.key');
         } catch (err) {
-
             this.apiVersion = "1.0.0";
             this.apiHost = "startrekcorpora.com";
             this.apiPort = "5000";

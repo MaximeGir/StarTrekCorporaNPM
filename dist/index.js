@@ -45,7 +45,7 @@ class StarTrek {
     isConfigured() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                let response = yield superagent.get(this.api_url + configs_1.configs.api.path).send();
+                let response = yield superagent.get(configs_1.configs.api_url).send();
                 if (response.error) {
                     throw response.error;
                 }

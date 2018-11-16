@@ -1,7 +1,8 @@
 
 api:
   version: 1.0.0
-  host: localhost #207.246.124.225 #startrekcorpora.com
+  host: startrekcorpora.com
   port: 5000
   path: /api/v1
   scheme: http
+  key: a92b57ea692e188b344aded8280ee7d2b6439284bd1eed7c0cf1a770

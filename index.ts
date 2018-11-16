@@ -44,7 +44,7 @@ export class StarTrek implements IStarTrekCorpora {
     public async isConfigured(): Promise<boolean> {
         try {
 
-            let response = await superagent.get(this.api_url + configs.api.path).send();
+            let response = await superagent.get(configs.api_url).send();
             if (response.error) {
                 throw response.error;
             }
