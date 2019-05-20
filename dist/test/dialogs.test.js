@@ -112,7 +112,7 @@ describe('dialogs function tests', () => {
         chai_1.expect(hasThrown).to.equal(true);
     }));
     it("should returns episode 704 dialogs when asked with url", () => __awaiter(this, void 0, void 0, function* () {
-        let res = yield instance.dialogs(null, null, "/api/v1/dialogs/episode/704");
+        let res = yield instance.dialogs(null, null, "/dialogs/episode/704");
         chai_1.assert.isNotNull(res);
         chai_1.assert.isArray(res.data);
         chai_1.assert.isTrue(res.data.length > 0);

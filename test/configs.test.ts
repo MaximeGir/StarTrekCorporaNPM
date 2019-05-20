@@ -26,7 +26,7 @@ describe("configuration tests", () => {
         }
 
         expect(configs.api).to.deep.include({ version: "1.0.0" });
-        expect(configs.api).to.deep.include({ port: '5000' });
+        expect(configs.api).to.deep.include({ port: 5000 });
         expect(configs.api).to.deep.include({ scheme: "http" });
         expect(configs.api).to.deep.include({ path: "/api/v1" });
 

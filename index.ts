@@ -1,6 +1,5 @@
 import * as superagent from 'superagent';
-import uuid = require('uuid');
-
+import { ApiCaller } from './api/ApiCaller';
 import { configs } from './config/configs';
 import { NotIMplementedYet as NotImplementedYetError } from './error/api/NotImplementedYet';
 import { ErrorCode } from './error/ErrorCode';
@@ -18,7 +17,6 @@ import { IRank } from './interface/IRank';
 import { ISerie } from './interface/ISerie';
 import { ISpaceShip } from './interface/ISpaceShip';
 import { IStarTrekCorpora } from './interface/IStarTrekCorpora';
-
 
 export class StarTrek implements IStarTrekCorpora {
     private api_url;
@@ -44,7 +42,7 @@ export class StarTrek implements IStarTrekCorpora {
     public async isConfigured(): Promise<boolean> {
         try {
 
-            let response = await superagent.get(this.api_url + configs.api.path).send();
+            let response = await superagent.get(configs.api_url).send();
             if (response.error) {
                 throw response.error;
             }
@@ -59,181 +57,62 @@ export class StarTrek implements IStarTrekCorpora {
     }
 
     public async ranks(): Promise<IApiResult<IRank>> {
-
-        let apiResult: IApiResult<IRank> = {
-            id: uuid(),
-            data: null,
-            timestamp: (new Date()).toISOString(),
-            errors: null
-        };
-
-        let response = await superagent.get(this.api_url + configs.api.path + "/ranks").set(this.headers).send();
-
-        response.error ?
-            apiResult.errors = response.errors :
-            apiResult.data = response.body;
-
-        return apiResult;
+        const caller: ApiCaller<IRank> = new ApiCaller<IRank>();
+        return caller.apiCall("/ranks");
     }
 
     public async spaceships(): Promise<IApiResult<ISpaceShip>> {
-
-        let apiResult: IApiResult<ISpaceShip> = {
-            id: uuid(),
-            data: null,
-            timestamp: (new Date()).toISOString(),
-            errors: null
-        };
-
-        let response = await superagent.get(this.api_url + configs.api.path + "/spaceships").set(this.headers).send();
-
-        response.error ?
-            apiResult.errors = response.errors :
-            apiResult.data = response.body;
-
-        return apiResult;
-
+        const caller: ApiCaller<ISpaceShip> = new ApiCaller<ISpaceShip>();
+        return caller.apiCall("/spaceships");
     }
 
     public async planets(): Promise<IApiResult<IPlanet>> {
-
-        let apiResult: IApiResult<IPlanet> = {
-            id: uuid(),
-            data: null,
-            timestamp: (new Date()).toISOString(),
-            errors: null
-        };
-
-        let response = await superagent.get(this.api_url + configs.api.path + "/planets").set(this.headers).send();
-
-        response.error ?
-            apiResult.errors = response.errors :
-            apiResult.data = response.body;
-
-        return apiResult;
+        const caller: ApiCaller<IPlanet> = new ApiCaller<IPlanet>();
+        return caller.apiCall("/planets");
     }
 
     public async personas(): Promise<IApiResult<IPersona>> {
-        let apiResult: IApiResult<IPersona> = {
-            id: uuid(),
-            data: null,
-            timestamp: (new Date()).toISOString(),
-            errors: null
-        };
-
-        let response = await superagent.get(this.api_url + configs.api.path + "/personas").set(this.headers).send();
-
-        response.error ?
-            apiResult.errors = response.errors :
-            apiResult.data = response.body;
-
-        return apiResult;
+        const caller: ApiCaller<IPersona> = new ApiCaller<IPersona>();
+        return caller.apiCall("/personas");
     }
 
     public async measurements(): Promise<IApiResult<IMeasurement>> {
-        let apiResult: IApiResult<IMeasurement> = {
-            id: uuid(),
-            data: null,
-            timestamp: (new Date()).toISOString(),
-            errors: null
-        };
-
-        let response = await superagent.get(this.api_url + configs.api.path + "/measurements").set(this.headers).send();
-
-        response.error ?
-            apiResult.errors = response.errors :
-            apiResult.data = response.body;
-
-        return apiResult;
+        const caller: ApiCaller<IMeasurement> = new ApiCaller<IMeasurement>();
+        return caller.apiCall("/measurements");
     }
 
     public async aliens(): Promise<IApiResult<IAlien>> {
-        let apiResult: IApiResult<IAlien> = {
-            id: uuid(),
-            data: null,
-            timestamp: (new Date()).toISOString(),
-            errors: null
-        };
-
-        let response = await superagent.get(this.api_url + configs.api.path + "/aliens").set(this.headers).send();
-
-        response.error ?
-            apiResult.errors = response.errors :
-            apiResult.data = response.body;
-
-        return apiResult;
+        const caller: ApiCaller<IAlien> = new ApiCaller<IAlien>();
+        return caller.apiCall("/aliens");
     }
 
     public async episodes(serie_id: number | string): Promise<IApiResult<IEpisode>> {
-        try {
-            let apiResult: IApiResult<IEpisode> = {
-                id: uuid(),
-                data: null,
-                timestamp: (new Date()).toISOString(),
-                errors: null
-            };
-
-            let response = await superagent.get(this.api_url + configs.api.path + "/" + serie_id + "/episodes").set(this.headers).send();
-
-            response.error ?
-                apiResult.errors = response.errors :
-                apiResult.data = response.body;
-
-            return apiResult;
-
-        } catch (error) {
-            throw error;
-        }
+        const caller: ApiCaller<IEpisode> = new ApiCaller<IEpisode>();
+        return caller.apiCall(`/${serie_id}/episodes`);
     }
 
     public async series(serie?: number | string): Promise<IApiResult<ISerie>> {
-        let computed_uri: string = serie ? this.api_url + configs.api.path + "/series" + "/" + serie : this.api_url + "/series";
-
-        let apiResult: IApiResult<ISerie> = {
-            id: uuid(),
-            data: null,
-            timestamp: (new Date()).toISOString(),
-            errors: null
-        };
-
-        let response = await superagent.get(computed_uri).set(this.headers).send();
-
-        response.error ?
-            apiResult.errors = response.errors :
-            apiResult.data = response.body;
-
-        return apiResult;
+        const caller: ApiCaller<ISerie> = new ApiCaller<ISerie>();
+        const uri: string = serie ? "/series" + "/" + serie : "/series";
+        return caller.apiCall(uri);
     }
 
     public async dialogs(serieID: string | number | null, charID?: string | null, episodeUrl?: string | null): Promise<IApiResult<IDialog>> {
-        try {
 
-            if (serieID) {
+        let dialogs: IApiResult<IDialog> = null;
 
-                if (charID) {
-
-                    return (await this.charDialogs(serieID, charID));
-
-                }
-
-                return (await this.serieDialogs(serieID));
-
-            } else if (episodeUrl) {
-
-                return (await this.episodeDialog(episodeUrl));
-
-            } else {
-
-                throw new NotFoundError(ErrorCode.NOT_FOUND_ERROR, ErrorMessage.NOT_FOUND_ERROR + " : " + serieID, "dialogs", []);
-
-            }
-
-        } catch (error) {
-
-            throw error;
-
+        if (charID) {
+            dialogs = (await this.charDialogs(serieID, charID));
+        } else if (episodeUrl) {
+            dialogs = (await this.episodeDialog(episodeUrl));
+        } else if (serieID) {
+            dialogs = (await this.serieDialogs(serieID));
         }
 
+        if (!serieID && !dialogs) {
+            throw new NotFoundError(ErrorCode.NOT_FOUND_ERROR, ErrorMessage.NOT_FOUND_ERROR + " : " + serieID, "dialogs", []);
+        }
+        return dialogs;
     }
 
     /**
@@ -244,7 +123,12 @@ export class StarTrek implements IStarTrekCorpora {
      * @throws NotImplementedYetError 
      */
     private async charDialogs(serieID: string | number, charID: string | null): Promise<IApiResult<IDialog>> {
-        throw new NotImplementedYetError(ErrorCode.NOT_IMPLEMENTED_YET, ErrorMessage.NOT_IMPLEMENTED_YET, "dialogs", []);
+        throw new NotImplementedYetError(
+            ErrorCode.NOT_IMPLEMENTED_YET,
+            ErrorMessage.NOT_IMPLEMENTED_YET,
+            "dialogs",
+            []
+        );
     }
 
     /**
@@ -254,27 +138,8 @@ export class StarTrek implements IStarTrekCorpora {
      * "VOY","ENT","TNG","TOS","TAS","DIS" either in caps or tiny or 1,2,3,4,5,6 as number
      */
     private async serieDialogs(serieID: string | number): Promise<IApiResult<IDialog>> {
-        try {
-
-            let apiResult: IApiResult<IDialog> = {
-                id: uuid(),
-                data: null,
-                timestamp: (new Date()).toISOString(),
-                errors: null
-            };
-
-            let response = await superagent.get(this.api_url + configs.api.path + "/dialogs/" + serieID).set(this.headers).send();
-
-            response.error ?
-                apiResult.errors = response.errors :
-                apiResult.data = response.body;
-
-            return apiResult;
-
-        } catch (error) {
-            console.log("ERROR! = " + error);
-            throw error;
-        }
+        const caller: ApiCaller<IDialog> = new ApiCaller<IDialog>();
+        return caller.apiCall("/dialogs/" + serieID);
     }
 
     /**
@@ -283,27 +148,8 @@ export class StarTrek implements IStarTrekCorpora {
      * @return { Promise<IApiResult<IExplicitEpisode>> }
      */
     private async episodeDialog(url: string): Promise<IApiResult<IDialog>> {
-        try {
-
-            let apiResult: IApiResult<IDialog> = {
-                id: uuid(),
-                data: null,
-                timestamp: (new Date()).toISOString(),
-                errors: null
-            };
-
-            let response = await superagent.get(this.api_url + url).set(this.headers).send();
-
-            response.error ?
-                apiResult.errors = response.errors :
-                apiResult.data = response.body;
-
-            return apiResult;
-
-        } catch (error) {
-            console.log("ERROR! = " + error);
-            throw error;
-        }
+        const caller: ApiCaller<IDialog> = new ApiCaller<IDialog>();
+        return caller.apiCall(url);
     }
 }
 
@@ -315,7 +161,7 @@ export * from "./interface/IApiError";
 export * from "./interface/IApiResult";
 export * from "./interface/IDialog";
 export * from "./interface/IEpisode";
-export * from "./interface/IMeasurement"
+export * from "./interface/IMeasurement";
 export * from "./interface/IPersona";
 export * from "./interface/IPlanet";
 export * from "./interface/IRank";

@@ -136,7 +136,7 @@ describe('dialogs function tests', () => {
     });
 
     it("should returns episode 704 dialogs when asked with url", async () => {
-        let res = await instance.dialogs(null, null, "/api/v1/dialogs/episode/704");
+        let res = await instance.dialogs(null, null, "/dialogs/episode/704");
 
         assert.isNotNull(res);
         assert.isArray(res.data);
