@@ -15,8 +15,8 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const ApiCaller_1 = require("./api/ApiCaller");
 const superagent = __importStar(require("superagent"));
+const ApiCaller_1 = require("./api/ApiCaller");
 const configs_1 = require("./config/configs");
 const NotImplementedYet_1 = require("./error/api/NotImplementedYet");
 const ErrorCode_1 = require("./error/ErrorCode");
